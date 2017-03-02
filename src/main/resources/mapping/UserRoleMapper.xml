@@ -208,4 +208,8 @@
       registration_code = #{registrationCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findUserByUsername" parameterType="String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user_role where username=#{username}
+  </select>
 </mapper>
