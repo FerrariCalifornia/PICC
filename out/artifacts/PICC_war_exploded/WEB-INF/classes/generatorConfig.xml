@@ -24,8 +24,11 @@
         <javaClientGenerator targetPackage="com.cc.dao"
                              targetProject="src/main/java" type="XMLMAPPER"/>
 
-        <table schema="sale_trace" tableName="user_role">
-        </table>
+        <table schema="sale_trace" tableName="customer_info"/>
+        <table schema="sale_trace" tableName="customer_info_kuan"/>
+        <table schema="sale_trace" tableName="user_info"/>
+        <table schema="sale_trace" tableName="feedback"/>
+
         <!--<table schema="testdb" tableName="ship">-->
         <!--</table>-->
 

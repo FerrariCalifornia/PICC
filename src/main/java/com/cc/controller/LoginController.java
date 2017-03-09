@@ -21,13 +21,18 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    /*
+     sign in
+     */
     @RequestMapping(value = "/sign",method = RequestMethod.GET)
     @ResponseBody
     public String signIn(UserRole user){
         loginService.signIn(user);
         return "success";
     }
-
+    /*
+    log in
+     */
     @RequestMapping("/login")
     @ResponseBody
     public String login(UserRole user){
@@ -39,7 +44,6 @@ public class LoginController {
         }catch (Exception e){
             //这里将异常打印关闭是因为如果登录失败的话会自动抛异常
 //            e.printStackTrace();
-
             return "wrong pssword or username";
         }
     }

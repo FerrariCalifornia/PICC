@@ -82,6 +82,7 @@
           <element id="library" level="project" name="Maven: redis.clients:jedis:2.7.3" />
           <element id="library" level="project" name="Maven: wsdl4j:wsdl4j:1.6.3" />
           <element id="library" level="project" name="Maven: xml-resolver:xml-resolver:1.2" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.0" />
         </element>
       </element>
     </root>
