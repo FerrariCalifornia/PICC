@@ -1,7 +1,6 @@
 package com.cc.controller;
 
 import com.cc.service.CustomerInfoService;
-import com.cc.service.FeedbackService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,18 +14,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class CustomerInfoController {
+    private static String json;
+
+
     @Autowired
     private CustomerInfoService customerInfoService;
-
     /*
      get customer list
  */
+
+
     @RequestMapping(value = "/getCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getFeedbackList(){
-
         Gson gson = new Gson();
-        String json = gson.toJson(customerInfoService.getAllCustomerInfo());
+        json = gson.toJson(customerInfoService.getAllCustomerInfo());
         return json;
     }
 }

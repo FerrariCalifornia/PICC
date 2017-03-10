@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Bootstrap Snippet: Login Form</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  
+  <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+    <div class="wrapper" id="adminLogin">
+    <form class="form-signin" >
+      <h2 class="form-signin-heading">Please login</h2>
+      <input type="text" class="form-control" name="username" v-model="loginModel.name" required="" autofocus="" />
+      <input type="password" class="form-control" name="password"  v-model="loginModel.password" required=""/>
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+      </label>
+      <button @click="login" class="btn btn-lg btn-primary btn-block" >Login</button>
+    </form>
+  </div>
+  
+  
+</body>
+</html>
