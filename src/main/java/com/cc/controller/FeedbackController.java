@@ -5,6 +5,7 @@ import com.cc.service.FeedbackService;
 import com.cc.service.LoginService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ public class FeedbackController {
     /*
      get feedback list
  */
-    @RequestMapping(value = "/getFeedbackList",method = RequestMethod.GET)
+    @RequestMapping(value = "/getFeedbackList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getFeedbackList(){
 

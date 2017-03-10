@@ -17,6 +17,7 @@ public interface CustomerInfoMapper {
     int insertSelective(CustomerInfo record);
 
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
+    List<CustomerInfo> getCustomerList();
 
     CustomerInfo selectByPrimaryKey(String customerId);
 

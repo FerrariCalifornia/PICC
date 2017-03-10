@@ -9,6 +9,8 @@ import com.cc.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by cc on 2017/3/1.
  */
@@ -19,8 +21,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
 
     @Override
-    public CustomerInfo getAllCustomerInfo() {
-        return null;
+    public List<CustomerInfo> getAllCustomerInfo() {
+        return customerInfoMapper.getCustomerList();
     }
 
     @Override
