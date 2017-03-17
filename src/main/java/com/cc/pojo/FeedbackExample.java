@@ -1,6 +1,8 @@
 package com.cc.pojo;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class FeedbackExample {
@@ -102,6 +104,32 @@ public class FeedbackExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andFeedbackIdIsNull() {
@@ -314,143 +342,263 @@ public class FeedbackExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andFailReasonTypeIsNull() {
+            addCriterion("fail_reason_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andFailReasonTypeIsNotNull() {
+            addCriterion("fail_reason_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(String value) {
-            addCriterion("status =", value, "status");
+        public Criteria andFailReasonTypeEqualTo(String value) {
+            addCriterion("fail_reason_type =", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(String value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andFailReasonTypeNotEqualTo(String value) {
+            addCriterion("fail_reason_type <>", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(String value) {
-            addCriterion("status >", value, "status");
+        public Criteria andFailReasonTypeGreaterThan(String value) {
+            addCriterion("fail_reason_type >", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(String value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andFailReasonTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("fail_reason_type >=", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(String value) {
-            addCriterion("status <", value, "status");
+        public Criteria andFailReasonTypeLessThan(String value) {
+            addCriterion("fail_reason_type <", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(String value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andFailReasonTypeLessThanOrEqualTo(String value) {
+            addCriterion("fail_reason_type <=", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLike(String value) {
-            addCriterion("status like", value, "status");
+        public Criteria andFailReasonTypeLike(String value) {
+            addCriterion("fail_reason_type like", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotLike(String value) {
-            addCriterion("status not like", value, "status");
+        public Criteria andFailReasonTypeNotLike(String value) {
+            addCriterion("fail_reason_type not like", value, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<String> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andFailReasonTypeIn(List<String> values) {
+            addCriterion("fail_reason_type in", values, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<String> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andFailReasonTypeNotIn(List<String> values) {
+            addCriterion("fail_reason_type not in", values, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(String value1, String value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andFailReasonTypeBetween(String value1, String value2) {
+            addCriterion("fail_reason_type between", value1, value2, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(String value1, String value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andFailReasonTypeNotBetween(String value1, String value2) {
+            addCriterion("fail_reason_type not between", value1, value2, "failReasonType");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonIsNull() {
-            addCriterion("fail_reason is null");
+        public Criteria andSalesDateIsNull() {
+            addCriterion("sales_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonIsNotNull() {
-            addCriterion("fail_reason is not null");
+        public Criteria andSalesDateIsNotNull() {
+            addCriterion("sales_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonEqualTo(String value) {
-            addCriterion("fail_reason =", value, "failReason");
+        public Criteria andSalesDateEqualTo(Date value) {
+            addCriterionForJDBCDate("sales_date =", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonNotEqualTo(String value) {
-            addCriterion("fail_reason <>", value, "failReason");
+        public Criteria andSalesDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("sales_date <>", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonGreaterThan(String value) {
-            addCriterion("fail_reason >", value, "failReason");
+        public Criteria andSalesDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("sales_date >", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("fail_reason >=", value, "failReason");
+        public Criteria andSalesDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("sales_date >=", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonLessThan(String value) {
-            addCriterion("fail_reason <", value, "failReason");
+        public Criteria andSalesDateLessThan(Date value) {
+            addCriterionForJDBCDate("sales_date <", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonLessThanOrEqualTo(String value) {
-            addCriterion("fail_reason <=", value, "failReason");
+        public Criteria andSalesDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("sales_date <=", value, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonLike(String value) {
-            addCriterion("fail_reason like", value, "failReason");
+        public Criteria andSalesDateIn(List<Date> values) {
+            addCriterionForJDBCDate("sales_date in", values, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonNotLike(String value) {
-            addCriterion("fail_reason not like", value, "failReason");
+        public Criteria andSalesDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("sales_date not in", values, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonIn(List<String> values) {
-            addCriterion("fail_reason in", values, "failReason");
+        public Criteria andSalesDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("sales_date between", value1, value2, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonNotIn(List<String> values) {
-            addCriterion("fail_reason not in", values, "failReason");
+        public Criteria andSalesDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("sales_date not between", value1, value2, "salesDate");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonBetween(String value1, String value2) {
-            addCriterion("fail_reason between", value1, value2, "failReason");
+        public Criteria andLastPurchasedateIsNull() {
+            addCriterion("last_purchasedate is null");
             return (Criteria) this;
         }
 
-        public Criteria andFailReasonNotBetween(String value1, String value2) {
-            addCriterion("fail_reason not between", value1, value2, "failReason");
+        public Criteria andLastPurchasedateIsNotNull() {
+            addCriterion("last_purchasedate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateEqualTo(Date value) {
+            addCriterionForJDBCDate("last_purchasedate =", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("last_purchasedate <>", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateGreaterThan(Date value) {
+            addCriterionForJDBCDate("last_purchasedate >", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("last_purchasedate >=", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateLessThan(Date value) {
+            addCriterionForJDBCDate("last_purchasedate <", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("last_purchasedate <=", value, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateIn(List<Date> values) {
+            addCriterionForJDBCDate("last_purchasedate in", values, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("last_purchasedate not in", values, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("last_purchasedate between", value1, value2, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLastPurchasedateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("last_purchasedate not between", value1, value2, "lastPurchasedate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
     }

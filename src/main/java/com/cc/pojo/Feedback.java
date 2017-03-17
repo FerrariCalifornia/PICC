@@ -1,6 +1,6 @@
 package com.cc.pojo;
 
-import java.util.List;
+import java.util.Date;
 
 public class Feedback {
     private String feedbackId;
@@ -9,9 +9,13 @@ public class Feedback {
 
     private String customerId;
 
-    private String status;
+    private String failReasonType;
 
-    private String failReason;
+    private Date salesDate;
+
+    private Date lastPurchasedate;
+
+    private String remark;
 
     public String getFeedbackId() {
         return feedbackId;
@@ -37,19 +41,35 @@ public class Feedback {
         this.customerId = customerId;
     }
 
-    public String getStatus() {
-        return status;
+    public String getFailReasonType() {
+        return failReasonType;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFailReasonType(String failReasonType) {
+        this.failReasonType = failReasonType;
     }
 
-    public String getFailReason() {
-        return failReason;
+    public Date getSalesDate() {
+        return salesDate;
     }
 
-    public void setFailReason(String failReason) {
-        this.failReason = failReason;
+    public void setSalesDate(Date salesDate) {
+        this.salesDate = salesDate;
+    }
+
+    public Date getLastPurchasedate() {
+        return lastPurchasedate;
+    }
+
+    public void setLastPurchasedate(Date lastPurchasedate) {
+        this.lastPurchasedate = lastPurchasedate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

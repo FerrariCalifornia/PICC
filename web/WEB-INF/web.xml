@@ -5,7 +5,7 @@
          version="3.1">
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>form-elements.html</welcome-file>
     </welcome-file-list>
 
      shiro过滤器定义

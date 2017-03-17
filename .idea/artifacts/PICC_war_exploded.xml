@@ -83,6 +83,18 @@
           <element id="library" level="project" name="Maven: wsdl4j:wsdl4j:1.6.3" />
           <element id="library" level="project" name="Maven: xml-resolver:xml-resolver:1.2" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.0" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-websocket:4.2.0.RELEASE" />
         </element>
       </element>
     </root>

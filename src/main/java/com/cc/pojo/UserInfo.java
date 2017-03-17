@@ -3,7 +3,7 @@ package com.cc.pojo;
 public class UserInfo {
     private String userId;
 
-    private Integer userType;
+    private Integer userTypeId;
 
     private String username;
 
@@ -17,12 +17,12 @@ public class UserInfo {
         this.userId = userId;
     }
 
-    public Integer getUserType() {
-        return userType;
+    public Integer getUserTypeId() {
+        return userTypeId;
     }
 
-    public void setUserType(Integer userType) {
-        this.userType = userType;
+    public void setUserTypeId(Integer userTypeId) {
+        this.userTypeId = userTypeId;
     }
 
     public String getUsername() {

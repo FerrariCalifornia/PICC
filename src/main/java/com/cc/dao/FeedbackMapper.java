@@ -18,7 +18,6 @@ public interface FeedbackMapper {
 
     List<Feedback> selectByExample(FeedbackExample example);
     List<Feedback> selectAll();
-
     Feedback selectByPrimaryKey(String feedbackId);
 
     int updateByExampleSelective(@Param("record") Feedback record, @Param("example") FeedbackExample example);

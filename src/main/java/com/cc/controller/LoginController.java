@@ -4,6 +4,7 @@ import com.cc.pojo.Admin;
 import com.cc.pojo.UserRole;
 import com.cc.service.LoginService;
 import com.google.gson.Gson;
+import org.apache.cxf.transport.http.HTTPSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,19 +30,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    /**
-     * sign in
-     *
-     * @param user
-     * @return
-     */
 
-    @RequestMapping(value = "/sign", method = RequestMethod.GET)
-    @ResponseBody
-    public String signIn(UserRole user) {
-        loginService.signIn(user);
-        return "success";
-    }
 
     /**
      * log in
@@ -48,7 +38,7 @@ public class LoginController {
      * @param user
      * @return
      */
-    @RequestMapping("/login")
+    @RequestMapping("/userlogin")
     @ResponseBody
     public String login(UserRole user) {
         Subject subject = SecurityUtils.getSubject();
@@ -73,7 +63,7 @@ public class LoginController {
 
     @RequestMapping(value = "/adminLogin",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String adminLogin(Admin admin) {
+    public String adminLogin(Admin admin, HttpSession session) {
         Map<String,String> map = new HashMap<String, String>();
         Gson gson = new Gson();
         if (admin != null) {
@@ -82,6 +72,8 @@ public class LoginController {
             if (admin.getName().equals("admin") && admin.getPassword().equals("admin")) {
                 System.out.println("log in success");
                 map.put("message","success");
+                session.setAttribute("admin",admin);
+
 
             } else {
                 System.out.println("wrong password or username");
