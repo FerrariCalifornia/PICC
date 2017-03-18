@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface CustomerInfoService {
     List<CustomerInfo> getAllCustomerInfo();
+    CustomerInfo getOneCustomer(Integer id);
     void insertCustomerInfo(CustomerInfo customerInfo);
 }

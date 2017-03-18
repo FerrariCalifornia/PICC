@@ -244,4 +244,7 @@
   <select id="getCustomerList" resultMap="BaseResultMap">
     SELECT * FROM customer_info
   </select>
+  <select id="getOneCustomer" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM customer_info WHERE customer_id = #{id}
+  </select>
 </mapper>

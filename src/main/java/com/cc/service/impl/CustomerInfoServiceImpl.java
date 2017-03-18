@@ -26,6 +26,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     @Override
+    public CustomerInfo getOneCustomer(Integer id) {
+        return customerInfoMapper.getOneCustomer(id);
+    }
+
+    @Override
     public void insertCustomerInfo(CustomerInfo customerInfo) {
 
     }

@@ -3,6 +3,8 @@ package com.cc.dao;
 import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.CustomerInfoExample;
 import java.util.List;
+
+import com.cc.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 public interface CustomerInfoMapper {
@@ -13,6 +15,7 @@ public interface CustomerInfoMapper {
     int deleteByPrimaryKey(String customerId);
 
     int insert(CustomerInfo record);
+    CustomerInfo getOneCustomer(Integer id);
 
     int insertSelective(CustomerInfo record);
 
