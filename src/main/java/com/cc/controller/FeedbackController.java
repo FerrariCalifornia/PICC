@@ -1,5 +1,7 @@
 package com.cc.controller;
 
+import com.cc.others.IdWorker;
+import com.cc.pojo.Feedback;
 import com.cc.pojo.UserRole;
 import com.cc.service.FeedbackService;
 import com.cc.service.LoginService;
@@ -9,7 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by cc on 2017/3/9.
@@ -17,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class FeedbackController {
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private FeedbackService feedbackService;
@@ -31,5 +39,34 @@ public class FeedbackController {
         Gson gson = new Gson();
         String json = gson.toJson(feedbackService.getFeedback());
         return json;
+    }
+    @RequestMapping(value = "/postFeedback",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postFeedback(
+            @RequestParam("lastPurchasedate") String lastPurchasedate,
+            @RequestParam("customerId") String customerId,
+            @RequestParam("failReasonType") String failReasonType,
+            @RequestParam("remark") String remark
+    ){
+        Feedback feedback = new Feedback();
+        Date lastdate;
+        try {
+             lastdate = dateFormat.parse(lastPurchasedate);
+             feedback.setLastPurchasedate(lastdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        IdWorker feedbackid = new IdWorker();
+        feedback.setFeedbackId(Long.toString(feedbackid.nextId()));
+        feedback.setSalesDate(new Date());
+        feedback.setUserId("1");
+        feedback.setCustomerId(customerId);
+        feedback.setFailReasonType(failReasonType);
+        feedback. setRemark(remark);
+        feedbackService.insertFeedback(feedback);
+        Gson gson = new Gson();
+        String json = gson.toJson(feedback);
+        System.out.println(lastPurchasedate);
+        return "success";
     }
 }
