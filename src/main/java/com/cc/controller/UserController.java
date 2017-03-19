@@ -1,7 +1,6 @@
 package com.cc.controller;
 
 import com.cc.pojo.UserInfo;
-import com.cc.pojo.UserRole;
 import com.cc.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.http.MediaType;

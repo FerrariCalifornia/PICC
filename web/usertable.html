@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<title>联合数据电话销售系统</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="/assets/js/jquery-2.0.3.min.js"></script>
 		<script src="assets/bootstrap-table.js"></script>
 
 		<!-- basic styles -->
@@ -206,28 +206,19 @@
 										<table id="sample-table-1"></table>
 										<script type="text/javascript">
 											$('#sample-table-1').bootstrapTable({
-												url: '/getCustomerList',
+												url: '/getUserList',
 												columns: [{
-													field: 'customerId',
-													title: '客户ID'
+													field: 'userId',
+													title: '用户ID'
 												}, {
-													field: 'customerPhone',
-													title: '电话号码'
+													field: 'userTypeId',
+													title: '用户类别'
 												}, {
-													field: 'gender',
-													title: '性别'
+													field: 'username',
+													title: '用户账号'
 												},{
-													field: 'age',
-													title: '年龄'
-												},{
-													field: 'model',
-													title: '车型'
-												},{
-													field: 'value',
-													title: '客户价值'
-												},{
-													field: 'status',
-													title: '状态'
+													field: 'password',
+													title: '密码'
 												}]
 											});
 										</script>

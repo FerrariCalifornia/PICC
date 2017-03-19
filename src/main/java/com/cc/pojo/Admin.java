@@ -4,15 +4,15 @@ package com.cc.pojo;
  * Created by cc on 2017/3/10.
  */
 public class Admin {
-    private String name;
+    private String username;
     private String password;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

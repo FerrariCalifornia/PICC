@@ -4,7 +4,6 @@ import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.CustomerInfoExample;
 import java.util.List;
 
-import com.cc.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 public interface CustomerInfoMapper {

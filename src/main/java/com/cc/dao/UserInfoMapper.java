@@ -2,7 +2,9 @@ package com.cc.dao;
 
 import com.cc.pojo.UserInfo;
 import com.cc.pojo.UserInfoExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserInfoMapper {

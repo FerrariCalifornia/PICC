@@ -5,7 +5,7 @@
          version="3.1">
 
     <welcome-file-list>
-        <welcome-file>form-elements.html</welcome-file>
+        <welcome-file>usertable.html</welcome-file>
     </welcome-file-list>
 
      shiro过滤器定义
@@ -72,7 +72,7 @@
     </welcome-file-list>
     <!-- 配置SESSION超时，单位是分钟 -->
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>300</session-timeout>
     </session-config>
 
 
@@ -106,19 +106,18 @@
         <init-param>
             <!-- 用户名 -->
             <param-name>loginUsername</param-name>
-            <param-value>druid</param-value>
+            <param-value>cc</param-value>
         </init-param>
         <init-param>
             <!-- 密码 -->
             <param-name>loginPassword</param-name>
-            <param-value>druid</param-value>
+            <param-value>ferrari</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>DruidStatView</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
-
     <!-- 确保静态资源可以被访问 -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
@@ -147,6 +146,14 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.woff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.ttf</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>default</servlet-name>

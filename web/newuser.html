@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-editable.css">
+    <link rel="stylesheet" href="assets/bootstrap-table.css">
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+
+
+    <script src="assets/bootstrap-table.js"></script>
+    <script src="assets/js/bootbox.min.js"></script>
+    <script src="assets/js/bootstrap-editable.js"></script>
+</head>
+<body>
+<div>
+    <div id="msg" class="alert hide"></div>
+    <table id="user" class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+            <td width="30%">Username</td>
+            <td><a href="#" class="myeditable editable editable-empty" data-type="text" data-name="username" data-original-title="Enter username">Empty</a></td>
+        </tr>
+        <tr>
+            <td>First name</td>
+            <td><a href="#" class="myeditable editable editable-empty" data-type="text" data-name="firstname" data-original-title="Enter your firstname">Empty</a></td>
+        </tr>
+        <tr>
+            <td>Group</td>
+            <td><a href="#" class="myeditable editable editable-empty" data-type="select" data-name="group" data-source="groups.php" data-original-title="Select group">Empty</a></td>
+        </tr>
+        <tr>
+            <td>Date of birth</td>
+            <td><a href="#" class="myeditable editable editable-empty" data-type="date" data-name="dob" data-viewformat="dd/mm/yyyy" data-original-title="Select Date of birth">Empty</a></td>
+        </tr>
+        <tr>
+            <td>Comments</td>
+            <td><a href="#" class="myeditable editable editable-empty" data-type="textarea" data-name="comments" data-original-title="Enter comments">Empty</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <button id="save-btn" class="btn btn-primary">Save new user!</button>
+</div>
+<script type="text/javascript">
+
+    $('.myeditable').editable({
+        url: 'post.php',
+        /* pk not defined for new record */
+        validate: {
+            username: function(v) {if(v == '') return 'Required field!'}
+        }
+    });
+
+//    $('#save-btn').click(function() {
+//        var data,
+//            $elems = $('.myeditable'),
+//            errors = $elems.editable('validate'); //run validation for all values
+//        if($.isEmptyObject(errors)) {
+//            data = $elems.editable('getValue'); //get all values
+//            $.ajax({
+//                type: 'POST',
+//                url: 'new.php',
+//                data: data,
+//                dataType: 'json'
+//            }).success(function(response) {
+//                if(response && response.id) {
+//                    $elems.editable('option', 'pk', response.id); //store pk
+//                    $elems.editable('markAsSaved');  //on success mark fields as saved
+//                    /* other success actions */
+//
+//                } else {
+//                    /* server-side validation error */
+//
+//                }
+//            }).error(function() {
+//                /* ajax error */
+//
+//            });
+//        } else {
+//            /* client-side validation error */
+//
+//        }
+//    });
+    $('#save-btn').click(function() {
+        $('.myeditable').editable('submit', {   //call submit
+            url: 'new.php',                     //url for creating new user
+            success: function(data) {
+                var msg = 'New user created! Now editables work in regular way.';
+                $('#msg').addClass('alert-success').removeClass('alert-error')
+                    .html(msg).show();
+                $('#save-btn').hide();
+            },
+            error: function(data) {
+                var msg = '';
+                if(data.errors) {                //validation error
+                    $.each(data.errors, function(k, v) { msg += k+": "+v+"<br>"; });
+                } else if(data.responseText) {   //ajax error
+                    msg = data.responseText;
+                }
+                $('#msg').removeClass('alert-success').addClass('alert-error')
+                    .html(msg).show();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

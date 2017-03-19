@@ -4,7 +4,6 @@ import com.cc.pojo.Admin;
 import com.cc.pojo.UserRole;
 import com.cc.service.LoginService;
 import com.google.gson.Gson;
-import org.apache.cxf.transport.http.HTTPSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -67,9 +66,9 @@ public class LoginController {
         Map<String,String> map = new HashMap<String, String>();
         Gson gson = new Gson();
         if (admin != null) {
-            System.out.println(admin.getName());
+            System.out.println(admin.getUsername());
             System.out.println(admin.getPassword());
-            if (admin.getName().equals("admin") && admin.getPassword().equals("admin")) {
+            if (admin.getUsername().equals("admin") && admin.getPassword().equals("admin")) {
                 System.out.println("log in success");
                 map.put("message","success");
                 session.setAttribute("admin",admin);
