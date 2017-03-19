@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by cc on 2017/3/9.
@@ -49,6 +51,8 @@ public class FeedbackController {
             @RequestParam("remark") String remark
     ){
         Feedback feedback = new Feedback();
+        Gson gson = new Gson();
+        Map<String,String> map = new HashMap<String, String>();
         Date lastdate;
         try {
              lastdate = dateFormat.parse(lastPurchasedate);
@@ -64,9 +68,10 @@ public class FeedbackController {
         feedback.setFailReasonType(failReasonType);
         feedback. setRemark(remark);
         feedbackService.insertFeedback(feedback);
-        Gson gson = new Gson();
         String json = gson.toJson(feedback);
         System.out.println(lastPurchasedate);
-        return "success";
+        map.put("message","success");
+        String message = gson.toJson(map);
+        return message;
     }
 }
