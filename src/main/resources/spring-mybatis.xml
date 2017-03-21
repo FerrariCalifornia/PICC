@@ -2,13 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                         http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.cc" />
+    <!--<context:component-scan base-package="com.cc.realm" />-->
 
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer"
@@ -62,7 +63,19 @@
 
 
     <!-- 配置自定义Realm -->
-    <bean id="myRealm" class="com.cc.realm.LoginRealm"/>
+    <bean id="myRealm" class="com.cc.realm.LoginRealm">
+
+
+        <!--起用缓存-->
+        <!--<property name="cachingEnabled" value="true"/>-->
+        <!--<property name="authenticationCachingEnabled" value="true"/>-->
+        <!--<property name="authenticationCacheName" value="authenticationCache"/>-->
+        <!--<property name="authorizationCachingEnabled" value="true"/>-->
+        <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
+
+
+
+    </bean>
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
@@ -72,21 +85,26 @@
         <!-- Shiro的核心安全接口,这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"/>
         <!-- 身份认证失败，则跳转到登录页面的配置 -->
-        <!--<property name="loginUrl" value="/login.jsp"/>-->
+        <property name="loginUrl" value="/login.html"/>
         <!-- 权限认证失败，则跳转到指定页面 -->
-        <!--<property name="unauthorizedUrl" value="/nopower.jsp"/>-->
+        <property name="unauthorizedUrl" value="/login.html"/>
         <!-- Shiro连接约束配置,即过滤链的定义 -->
-        <!--<property name="filterChainDefinitions">-->
-            <!--<value>-->
-                <!--&lt;!&ndash;anon 表示匿名访问，不需要认证以及授权&ndash;&gt;-->
-                <!--/loginAdmin=anon-->
-                <!--&lt;!&ndash;authc表示需要认证 没有进行身份认证是不能进行访问的&ndash;&gt;-->
-                <!--/admin*=authc-->
-                <!--&lt;!&ndash;/student=roles[teacher]&ndash;&gt;-->
-                <!--&lt;!&ndash;/teacher=perms["user:create"]&ndash;&gt;-->
-            <!--</value>-->
-        <!--</property>-->
+        <property name="filterChainDefinitions">
+            <value>
+                <!--anon 表示匿名访问，不需要认证以及授权-->
+                /userLogin=anon
+                <!--authc表示需要认证 没有进行身份认证是不能进行访问的-->
+                /user=authc,roles[user]
+                /admin=authc,roles[admin]
+                /*=authc
+                <!--/test=roles[teacher]-->
+                <!--/getCustomerList=roles[2]-->
+                <!--/teacher=perms["user:create"]-->
+            </value>
+        </property>
     </bean>
+    <!--shiro验证需要-->
+    <aop:config proxy-target-class="true"/>
     <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <!-- 开启Shiro注解 -->
@@ -96,6 +114,6 @@
         <property name="securityManager" ref="securityManager"/>
     </bean>
 
-    <mvc:resources location="/pages/" mapping="/**/*.html"/>
+    <!--<mvc:resources location="/pages/" mapping="/**/*.html"/>-->
 
 </beans>

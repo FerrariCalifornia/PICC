@@ -1,13 +1,16 @@
 package com.cc.controller;
 
 import com.cc.pojo.Admin;
+import com.cc.pojo.UserInfo;
 import com.cc.pojo.UserRole;
 import com.cc.service.LoginService;
 import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,14 +40,24 @@ public class LoginController {
      * @param user
      * @return
      */
-    @RequestMapping("/userlogin")
+    @RequestMapping(value = "/userLogin",method = RequestMethod.POST)
     @ResponseBody
-    public String login(UserRole user) {
+    public String login(UserInfo user) {
+        System.out.println("正在登录.......");
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
         try {
             subject.login(token);
-            return "login success";
+            if (subject.hasRole("admin")){
+                System.out.println("管理员正在登录");
+                System.out.println("admin long in  success");
+                return "adminsuccess";
+            }else if (subject.hasRole("user")){
+                System.out.println("用户登录成功!");
+                return "success";
+            }else {
+                return "呵呵 你是谁？";
+            }
         } catch (Exception e) {
             //这里将异常打印关闭是因为如果登录失败的话会自动抛异常
 //            e.printStackTrace();

@@ -5,6 +5,7 @@ import com.cc.pojo.UserInfoExample;
 
 import java.util.List;
 
+import com.cc.pojo.UserRole;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserInfoMapper {
@@ -27,6 +28,7 @@ public interface UserInfoMapper {
     int updateByExample(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
 
     int updateByPrimaryKeySelective(UserInfo record);
-
+    UserInfo findUserByUsername(String username);
     int updateByPrimaryKey(UserInfo record);
+    String findRoles(String username);
 }

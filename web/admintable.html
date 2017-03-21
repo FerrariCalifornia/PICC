@@ -106,7 +106,7 @@
             <a href="#" class="navbar-brand">
                 <small>
                     <i class="icon-leaf"></i>
-                    联合数据电话销售系统
+                    联合数据电话销售系统管理员页面
                 </small>
             </a><!-- /.brand -->
         </div><!-- /.navbar-header -->
@@ -185,51 +185,49 @@
                 </li>
 
                 <li class="active open">
-                    <a href="#" class="dropdown-toggle">
+                    <a href="tables.html" class="dropdown-toggle">
                         <i class="icon-edit"></i>
-                        <span class="menu-text"> 待沟通客户 </span>
+                        <span class="menu-text"> 用户管理 </span>
 
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
-                    <ul class="submenu">
-                        <li class="active">
-                            <a href="form-elements.html">
-                                <i class="icon-double-angle-right"></i>
-                                待沟通客户信息
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
                 <li class="active open">
                     <a href="#" class="dropdown-toggle">
                         <i class="icon-edit"></i>
-                        <span class="menu-text"> 待跟进客户清单 </span>
+                        <span class="menu-text"> 历史记录 </span>
 
                         <b class="arrow icon-angle-down"></b>
                     </a>
 
                     <ul class="submenu">
                         <li class="active">
-                            <a href="call_fail_list.html">
+                            <a href="admintable.html">
                                 <i class="icon-double-angle-right"></i>
-                                电话未打通的客户
+                                历史记录清单
                             </a>
                         </li>
-                        <li class="active">
-                            <a href="no_answer_list.html">
-                                <i class="icon-double-angle-right"></i>
-                                电话无人接听的客户
-                            </a>
-                        </li>
-                        <li class="active">
-                            <a href="unexpired_insurance_list.html">
-                                <i class="icon-double-angle-right"></i>
-                                保险未到期的客户
-                            </a>
-                        </li>
+                        <!--<li class="active">-->
+                            <!--<a href="no_answer_list.html">-->
+                                <!--<i class="icon-double-angle-right"></i>-->
+                                <!--电话无人接听的客户-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li class="active">-->
+                            <!--<a href="unexpired_insurance_list.html">-->
+                                <!--<i class="icon-double-angle-right"></i>-->
+                                <!--保险未到期的客户-->
+                            <!--</a>-->
+                        <!--</li>-->
                     </ul>
+                <li class="active">
+                    <a href="#">
+                        <i class="icon-dashboard"></i>
+                        <span class="menu-text"> 统计 </span>
+                    </a>
+                </li>
 
                 </li>
 
@@ -265,9 +263,9 @@
                     </li>
 
                     <li>
-                        <a href="#">电话无人接听的客户</a>
+                        <a href="#">历史记录</a>
                     </li>
-                    <li class="active">电话无人接听的客户名单</li>
+                    <li class="active">历史记录清单</li>
                 </ul><!-- .breadcrumb -->
 
             </div>
@@ -275,232 +273,25 @@
             <div class="page-content">
                 <div class="page-header">
                     <h1>
-                        电话无人接听的客户
+                        历史记录
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            电话无人接听的客户名单
+                            历史记录清单
                         </small>
                     </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
+                    <div class="col-xs-12 col-sm-2"></div>
 
                     <div class="col-xs-12 col-sm-4">
                         <div id="table0">
                             <table id="sample-table-0"></table>
                         </div>
                         <hr/>
-                        <div class="col-md-offset-3">
-                            &nbsp; &nbsp; &nbsp;
-                            <button class="btn btn-info" type="button">
-                                <i class="icon-ok bigger-110"></i>
-                                拨打电话
-                            </button>
-
-                            &nbsp; &nbsp; &nbsp;
-                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-1"></div>
 
-                    <div class="col-xs-12 col-sm-4">
-                        <!-- PAGE CONTENT BEGINS -->
-
-                        <form class="form-horizontal" role="form" id="form1">
-
-                            <!--<div class="space-4"></div>-->
-
-                            <!--<div class="hr hr-24"></div>-->
-
-                            <div class="widget-box">
-                                <div class="widget-header">
-                                    <h4>反馈记录</h4>
-                                </div>
-                                <div class="widget-body">
-                                    <div class="widget-main">
-                                        <div class="control-group">
-                                            <label class="control-label bolder blue">是否成功</label>
-
-                                            <div class="radio">
-                                                <div class="space-1">
-                                                    <label>
-                                                        <input name="status" type="radio"
-                                                               class="ace" value="one"/>
-                                                        <span class="lbl">是</span>
-                                                    </label>
-                                                </div>
-                                                <div class="space-1">
-                                                    <label>
-                                                        <input name="status" type="radio"
-                                                               class="ace" value="two"/>
-                                                        <span class="lbl">待跟进</span>
-                                                    </label>
-                                                </div>
-                                                <div class="space-1">
-                                                    <label>
-                                                        <input name="status" type="radio"
-                                                               class="ace" value="three"/>
-                                                        <span class="lbl">否</span>
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                            <hr/>
-                                            <div>
-                                                <label for="failReason">推销失败原因</label>
-
-                                                <select class="form-control" id="failReason" name="failReason">
-                                                    <!--<option value="">&nbsp;</option>-->
-                                                    <option value="未打通">未打通</option>
-                                                    <option value="无人接听">无人接听</option>
-                                                    <option value="空号">空号</option>
-                                                    <option value="客户直接挂电话">客户直接挂电话</option>
-                                                    <option value="保险未到期">保险未到期</option>
-                                                    <option value="客户不需要保险">客户不需要保险</option>
-                                                    <option value="其他">其他</option>
-
-
-                                                </select>
-                                            </div>
-                                            <hr/>
-                                            <label for="lastdate">上次车险购买时间</label>
-
-                                            <div class="row">
-                                                <div class="col-xs-8 col-sm-11">
-                                                    <div class="input-group">
-                                                        <input class="form-control date-picker"
-                                                               name="lastdate"
-                                                               id="lastdate" type="text"
-                                                               data-date-format="yyyy-mm-dd"/>
-                                                        <span class="input-group-addon">
-																		<i class="icon-calendar bigger-110"></i>
-																	</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr/>
-                                            <div>
-                                                <label for="remark">备注</label>
-
-                                                <textarea id="remark"
-                                                          class="autosize-transition form-control"
-                                                          name="remark"></textarea>
-                                            </div>
-                                            <hr/>
-                                            <div class="col-md-offset-2">
-                                                <button class="btn btn-info" type="button" value="submit"
-                                                        onclick="fsubmit()">
-                                                    <i class="icon-ok bigger-110"></i>
-                                                    下一个
-                                                </button>
-
-                                                &nbsp; &nbsp; &nbsp;
-                                                <button class="btn" type="button">
-                                                    <i class="icon-undo bigger-110"></i>
-                                                    取消
-                                                </button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- /span -->
-                        </form>
-
-                        <script type="text/javascript">
-                            function fsubmit() {
-//                                var id = document.getElementById("sample-table-0").rows[1].cells[0].innerHTML;
-
-                                $.ajax({
-                                    url: "/postFeedback",
-                                    method: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        customerId: $('.card-view')[0].lastChild.innerHTML,
-                                        lastPurchasedate: $('form').find('#lastdate').val(),
-                                        remark: $('form').find('#remark').val(),
-                                        failReasonType: $('form').find('#failReason').val(),
-                                        status: $('form').find("input[type='radio']:checked").val()
-                                    },
-                                    success: function (resp) {
-
-                                        if (resp.message == 'success') {
-//                                            window.location.href = 'dashboard-1.html';
-                                            //清空表单
-                                            $('#form1')[0].reset();
-                                            var tabledata = $('#sample-table-1').bootstrapTable('getData');
-//                                            console.log(tabledata);
-                                            var tableindex;
-                                            //先获取id再清空表格
-                                            var customerId=$('.card-view')[0].lastChild.innerHTML;
-                                            $('#table0').empty();
-
-                                            var nextcustomerid;
-                                            var box = document.getElementById("table0");
-                                            var table0 = document.createElement("table");
-                                            table0.setAttribute("id", "sample-table-0");
-                                            box.appendChild(table0);
-                                            for(var i=0;i<tabledata.length;i++){
-                                                    if(customerId==tabledata[i].customerId){
-                                                        tableindex=i+1;
-                                                        if (tableindex<tabledata.length){
-                                                            nextcustomerid=tabledata[i+1].customerId;
-                                                        }
-                                                    }
-                                             }
-
-                                            if(tableindex<tabledata.length){
-//                                                console.log(tabledata.length);
-//                                                console.log(tableindex);
-                                                $('#sample-table-0').bootstrapTable({
-                                                    url: '/getOneCustomer?id=' + nextcustomerid,
-                                                    columns: [{
-                                                        field: 'customerId',
-                                                        title: '客户ID'
-                                                    }, {
-                                                        field: 'customerPhone',
-                                                        title: '电话号码'
-                                                    }, {
-                                                        field: 'gender',
-                                                        title: '性别'
-                                                    }, {
-                                                        field: 'age',
-                                                        title: '年龄'
-                                                    }, {
-                                                        field: 'model',
-                                                        title: '车型'
-                                                    }, {
-                                                        field: 'value',
-                                                        title: '客户价值'
-                                                    }, {
-                                                        field: 'status',
-                                                        title: '状态'
-                                                    }]
-                                                });
-                                                $('#sample-table-0').bootstrapTable('toggleView');
-                                            }else {
-                                                alert("已经是最后一个了")
-                                            }
-
-
-
-
-                                        }
-
-
-                                        // Show errors
-                                        if (resp.message == 'error') {
-
-                                        }
-                                    }
-                                });
-                            }
-                        </script>
-
-                        <div class="hr hr-18 dotted hr-double"></div>
-
-                    </div>
-
-                    <div class="col-xs-12 col-sm-1"></div>
                     <div class="col-xs-12 col-sm-2">
                         <table id="sample-table-1"></table>
                         <script type="text/javascript">

@@ -20,7 +20,6 @@
 
 		<!-- fonts -->
 
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" />
 
 		<!-- ace styles -->
 
@@ -121,47 +120,64 @@
 						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 					</script>
 
-<ul class="nav nav-list">
+					<ul class="nav nav-list">
 						<li class="active">
-							<a href="pages/index.html">
+							<a href="#">
 								<i class="icon-dashboard"></i>
 								<span class="menu-text"> 控制台 </span>
 							</a>
 						</li>
 
+						<li class="active">
+							<a href="tables.html" class="dropdown-toggle">
+								<i class="icon-edit"></i>
+								<span class="menu-text"> 用户管理 </span>
 
+								<!--<b class="arrow icon-angle-down"></b>-->
+							</a>
 
+						</li>
 
-						<li class="active open">
+						<li class="active">
 							<a href="#" class="dropdown-toggle">
-								<i class="icon-list"></i>
-								<span class="menu-text"> 表格 </span>
+								<i class="icon-edit"></i>
+								<span class="menu-text"> 历史记录 </span>
 
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
 							<ul class="submenu">
 								<li class="active">
-									<a href="tables.html">
+									<a href="admintable.html">
 										<i class="icon-double-angle-right"></i>
-										简单 &amp; 动态
+										历史记录清单
 									</a>
 								</li>
-
-								<li>
-									<a href="jqgrid.html">
-										<i class="icon-double-angle-right"></i>
-										jqGrid plugin
-									</a>
-								</li>
+								<!--<li class="active">-->
+								<!--<a href="no_answer_list.html">-->
+								<!--<i class="icon-double-angle-right"></i>-->
+								<!--电话无人接听的客户-->
+								<!--</a>-->
+								<!--</li>-->
+								<!--<li class="active">-->
+								<!--<a href="unexpired_insurance_list.html">-->
+								<!--<i class="icon-double-angle-right"></i>-->
+								<!--保险未到期的客户-->
+								<!--</a>-->
+								<!--</li>-->
 							</ul>
+						<li class="active open">
+							<a href="#">
+								<i class="icon-dashboard"></i>
+								<span class="menu-text"> 统计 </span>
+							</a>
+						</li>
+
 						</li>
 
 
-
-
-
 					</ul><!-- /.nav-list -->
+
 
 					<div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
@@ -206,28 +222,19 @@
 										<table id="sample-table-1"></table>
 										<script type="text/javascript">
 											$('#sample-table-1').bootstrapTable({
-												url: '/getCustomerList',
+												url: '/getUserList',
 												columns: [{
-													field: 'customerId',
-													title: '客户ID'
+													field: 'userId',
+													title: 'ID'
 												}, {
-													field: 'customerPhone',
-													title: '电话号码'
+													field: 'userTypeId',
+													title: '用户类型'
 												}, {
-													field: 'gender',
-													title: '性别'
+													field: 'username',
+													title: '用户名'
 												},{
-													field: 'age',
-													title: '年龄'
-												},{
-													field: 'model',
-													title: '车型'
-												},{
-													field: 'value',
-													title: '客户价值'
-												},{
-													field: 'status',
-													title: '状态'
+													field: 'password',
+													title: '密码'
 												}]
 											});
 										</script>

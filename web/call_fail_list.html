@@ -5,7 +5,6 @@
     <title>联合数据电话销售系统</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     <!-- basic styles -->
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
@@ -16,7 +15,7 @@
     <![endif]-->
 
     <!-- page specific plugin styles -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/bootstrap-table.js"></script>
 
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.custom.min.css"/>
@@ -29,7 +28,7 @@
 
     <!-- fonts -->
 
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>
+    <!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300"/>-->
 
     <!-- ace styles -->
 
@@ -39,6 +38,43 @@
 
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <!-- basic scripts -->
+
+    <!--[if !IE]> -->
+
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+    <script src="assets/js/jquery-1.10.2.min.js"></script>
+    <![endif]-->
+
+    <!--[if !IE]> -->
+
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/typeahead-bs2.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+
+    <!--[if lte IE 8]>
+    <script src="assets/js/excanvas.min.js"></script>
     <![endif]-->
 
     <!-- inline styles related to this page -->
@@ -142,7 +178,7 @@
 
             <ul class="nav nav-list">
                 <li class="active">
-                    <a href="pages/index.html">
+                    <a href="#">
                         <i class="icon-dashboard"></i>
                         <span class="menu-text"> 控制台 </span>
                     </a>
@@ -229,9 +265,9 @@
                     </li>
 
                     <li>
-                        <a href="#">待跟进客户</a>
+                        <a href="#">电话未打通的客户</a>
                     </li>
-                    <li class="active">电话未打通的客户</li>
+                    <li class="active">电话未打通的客户名单</li>
                 </ul><!-- .breadcrumb -->
 
             </div>
@@ -239,10 +275,10 @@
             <div class="page-content">
                 <div class="page-header">
                     <h1>
-                        待跟进客户
+                        电话未打通的客户
                         <small>
                             <i class="icon-double-angle-right"></i>
-                            电话未打通的客户
+                            电话未打通的客户名单
                         </small>
                     </h1>
                 </div><!-- /.page-header -->
@@ -250,21 +286,9 @@
                 <div class="row">
 
                     <div class="col-xs-12 col-sm-4">
-                        <table id="sample-table-0"></table>
-                        <script type="text/javascript">
-                            $('#sample-table-0').bootstrapTable({
-                                url: '/getCustomerList',
-                                columns: [{
-                                    field: 'customerId',
-                                    title: '客户ID'
-                                }, {
-                                    field: 'status',
-                                    title: '状态'
-                                }]
-                            });
-                            $('#sample-table-0').bootstrapTable('toggleView');
-
-                        </script>
+                        <div id="table0">
+                            <table id="sample-table-0"></table>
+                        </div>
                         <hr/>
                         <div class="col-md-offset-3">
                             &nbsp; &nbsp; &nbsp;
@@ -281,7 +305,7 @@
                     <div class="col-xs-12 col-sm-4">
                         <!-- PAGE CONTENT BEGINS -->
 
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" id="form1">
 
                             <!--<div class="space-4"></div>-->
 
@@ -299,22 +323,22 @@
                                             <div class="radio">
                                                 <div class="space-1">
                                                     <label>
-                                                        <input name="form-field-radio" type="radio"
-                                                               class="ace"/>
+                                                        <input name="status" type="radio"
+                                                               class="ace" value="one"/>
                                                         <span class="lbl">是</span>
                                                     </label>
                                                 </div>
                                                 <div class="space-1">
                                                     <label>
-                                                        <input name="form-field-radio" type="radio"
-                                                               class="ace"/>
+                                                        <input name="status" type="radio"
+                                                               class="ace" value="two"/>
                                                         <span class="lbl">待跟进</span>
                                                     </label>
                                                 </div>
                                                 <div class="space-1">
                                                     <label>
-                                                        <input name="form-field-radio" type="radio"
-                                                               class="ace"/>
+                                                        <input name="status" type="radio"
+                                                               class="ace" value="three"/>
                                                         <span class="lbl">否</span>
                                                     </label>
                                                 </div>
@@ -322,30 +346,31 @@
                                             </div>
                                             <hr/>
                                             <div>
-                                                <label for="form-field-select-1">推销失败原因</label>
+                                                <label for="failReason">推销失败原因</label>
 
-                                                <select class="form-control" id="form-field-select-1">
-                                                    <option value="">&nbsp;</option>
-                                                    <option value="AL">未打通</option>
-                                                    <option value="AK">无人接听</option>
-                                                    <option value="AZ">空号</option>
-                                                    <option value="AR">客户直接挂电话</option>
-                                                    <option value="CA">保险未到期</option>
-                                                    <option value="CO">客户不需要保险</option>
-                                                    <option value="CO">其他</option>
+                                                <select class="form-control" id="failReason" name="failReason">
+                                                    <!--<option value="">&nbsp;</option>-->
+                                                    <option value="未打通">未打通</option>
+                                                    <option value="无人接听">无人接听</option>
+                                                    <option value="空号">空号</option>
+                                                    <option value="客户直接挂电话">客户直接挂电话</option>
+                                                    <option value="保险未到期">保险未到期</option>
+                                                    <option value="客户不需要保险">客户不需要保险</option>
+                                                    <option value="其他">其他</option>
 
 
                                                 </select>
                                             </div>
                                             <hr/>
-                                            <label for="id-date-picker-1">上次车险购买时间</label>
+                                            <label for="lastdate">上次车险购买时间</label>
 
                                             <div class="row">
                                                 <div class="col-xs-8 col-sm-11">
                                                     <div class="input-group">
                                                         <input class="form-control date-picker"
-                                                               id="id-date-picker-1" type="text"
-                                                               data-date-format="dd-mm-yyyy"/>
+                                                               name="lastdate"
+                                                               id="lastdate" type="text"
+                                                               data-date-format="yyyy-mm-dd"/>
                                                         <span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
 																	</span>
@@ -354,20 +379,22 @@
                                             </div>
                                             <hr/>
                                             <div>
-                                                <label for="form-field-11">备注</label>
+                                                <label for="remark">备注</label>
 
-                                                <textarea id="form-field-11"
-                                                          class="autosize-transition form-control"></textarea>
+                                                <textarea id="remark"
+                                                          class="autosize-transition form-control"
+                                                          name="remark"></textarea>
                                             </div>
                                             <hr/>
                                             <div class="col-md-offset-2">
-                                                <button class="btn btn-info" type="button">
+                                                <button class="btn btn-info" type="button" value="submit"
+                                                        onclick="fsubmit()">
                                                     <i class="icon-ok bigger-110"></i>
                                                     下一个
                                                 </button>
 
                                                 &nbsp; &nbsp; &nbsp;
-                                                <button class="btn" type="reset">
+                                                <button class="btn" type="button">
                                                     <i class="icon-undo bigger-110"></i>
                                                     取消
                                                 </button>
@@ -378,6 +405,96 @@
                                 </div>
                             </div><!-- /span -->
                         </form>
+
+                        <script type="text/javascript">
+                            function fsubmit() {
+//                                var id = document.getElementById("sample-table-0").rows[1].cells[0].innerHTML;
+
+                                $.ajax({
+                                    url: "/postFeedback",
+                                    method: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        customerId: $('.card-view')[0].lastChild.innerHTML,
+                                        lastPurchasedate: $('form').find('#lastdate').val(),
+                                        remark: $('form').find('#remark').val(),
+                                        failReasonType: $('form').find('#failReason').val(),
+                                        status: $('form').find("input[type='radio']:checked").val()
+                                    },
+                                    success: function (resp) {
+
+                                        if (resp.message == 'success') {
+//                                            window.location.href = 'dashboard-1.html';
+                                            //清空表单
+                                            $('#form1')[0].reset();
+                                            var tabledata = $('#sample-table-1').bootstrapTable('getData');
+//                                            console.log(tabledata);
+                                            var tableindex;
+                                            //先获取id再清空表格
+                                            var customerId=$('.card-view')[0].lastChild.innerHTML;
+                                            $('#table0').empty();
+
+                                            var nextcustomerid;
+                                            var box = document.getElementById("table0");
+                                            var table0 = document.createElement("table");
+                                            table0.setAttribute("id", "sample-table-0");
+                                            box.appendChild(table0);
+                                            for(var i=0;i<tabledata.length;i++){
+                                                    if(customerId==tabledata[i].customerId){
+                                                        tableindex=i+1;
+                                                        if (tableindex<tabledata.length){
+                                                            nextcustomerid=tabledata[i+1].customerId;
+                                                        }
+                                                    }
+                                             }
+
+                                            if(tableindex<tabledata.length){
+//                                                console.log(tabledata.length);
+//                                                console.log(tableindex);
+                                                $('#sample-table-0').bootstrapTable({
+                                                    url: '/getOneCustomer?id=' + nextcustomerid,
+                                                    columns: [{
+                                                        field: 'customerId',
+                                                        title: '客户ID'
+                                                    }, {
+                                                        field: 'customerPhone',
+                                                        title: '电话号码'
+                                                    }, {
+                                                        field: 'gender',
+                                                        title: '性别'
+                                                    }, {
+                                                        field: 'age',
+                                                        title: '年龄'
+                                                    }, {
+                                                        field: 'model',
+                                                        title: '车型'
+                                                    }, {
+                                                        field: 'value',
+                                                        title: '客户价值'
+                                                    }, {
+                                                        field: 'status',
+                                                        title: '状态'
+                                                    }]
+                                                });
+                                                $('#sample-table-0').bootstrapTable('toggleView');
+                                            }else {
+                                                alert("已经是最后一个了")
+                                            }
+
+
+
+
+                                        }
+
+
+                                        // Show errors
+                                        if (resp.message == 'error') {
+
+                                        }
+                                    }
+                                });
+                            }
+                        </script>
 
                         <div class="hr hr-18 dotted hr-double"></div>
 
@@ -395,11 +512,89 @@
                                 }, {
                                     field: 'status',
                                     title: '状态'
-                                }]
+                                }],
+                                onClickRow: function (row) {
+//                                    $('#sample-table-0').bootstrapTable('removeAll');
+                                    $('#table0').empty();
+                                    var box = document.getElementById("table0");
+                                    var table0 = document.createElement("table");
+                                    table0.setAttribute("id", "sample-table-0");
+                                    box.appendChild(table0);
+//                                    console.log(row);
+//                                    console.log(row.customerId);
+                                    $('#sample-table-0').bootstrapTable({
+                                        url: '/getOneCustomer?id=' + row.customerId,
+                                        columns: [{
+                                            field: 'customerId',
+                                            title: '客户ID'
+                                        }, {
+                                            field: 'customerPhone',
+                                            title: '电话号码'
+                                        }, {
+                                            field: 'gender',
+                                            title: '性别'
+                                        }, {
+                                            field: 'age',
+                                            title: '年龄'
+                                        }, {
+                                            field: 'model',
+                                            title: '车型'
+                                        }, {
+                                            field: 'value',
+                                            title: '客户价值'
+                                        }, {
+                                            field: 'status',
+                                            title: '状态'
+                                        }]
+                                    });
+                                    $('#sample-table-0').bootstrapTable('toggleView');
+
+                                },
+                                onLoadSuccess: function () {
+                                    //用获取table(通过其id ) 获取指定的行，列
+                                    var id = document.getElementById("sample-table-1").rows[1].cells[0].innerHTML;
+                                    console.log(id + "------");
+                                    $('#sample-table-0').bootstrapTable({
+                                        url: '/getOneCustomer?id=' + id,
+                                        columns: [{
+                                            field: 'customerId',
+                                            title: '客户ID'
+                                        }, {
+                                            field: 'customerPhone',
+                                            title: '电话号码'
+                                        }, {
+                                            field: 'gender',
+                                            title: '性别'
+                                        }, {
+                                            field: 'age',
+                                            title: '年龄'
+                                        }, {
+                                            field: 'model',
+                                            title: '车型'
+                                        }, {
+                                            field: 'value',
+                                            title: '客户价值'
+                                        }, {
+                                            field: 'status',
+                                            title: '状态'
+                                        }]
+                                    });
+                                    $('#sample-table-0').bootstrapTable('toggleView');
+                                }
                             });
+
+
+                            $(document).ready(function () {
+
+                            });
+                            //                            var td1 = document.getElementById("sample-table-1").innerHTML;
+
+
                         </script>
                     </div>
                 </div><!-- /.row -->
+
+
             </div>
         </div><!-- /.main-content -->
 
@@ -413,48 +608,11 @@
 </a>
 </div><!-- /.main-container -->
 
-<!-- basic scripts -->
-
-<!--[if !IE]> -->
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<![endif]-->
-
-<!--[if !IE]> -->
-
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
-</script>
-
-<!-- <![endif]-->
-
-<!--[if IE]>
-<script type="text/javascript">
-    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>" + "<" + "/script>");
-</script>
-<![endif]-->
-
-<script type="text/javascript">
-    if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-</script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/typeahead-bs2.min.js"></script>
-
-<!-- page specific plugin scripts -->
-
-<!--[if lte IE 8]>
-<script src="assets/js/excanvas.min.js"></script>
-<![endif]-->
 
 <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/chosen.jquery.min.js"></script>
-<script src="assets/js/fuelux/fuelux.spinner.min.js"></script>
+<!--<script src="assets/js/fuelux/fuelux.spinner.min.js"></script>-->
 <script src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
 <script src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
 <script src="assets/js/date-time/moment.min.js"></script>
@@ -475,21 +633,6 @@
 
 <script type="text/javascript">
     jQuery(function ($) {
-        $('#id-disable-check').on('click', function () {
-            var inp = $('#form-input-readonly').get(0);
-            if (inp.hasAttribute('disabled')) {
-                inp.setAttribute('readonly', 'true');
-                inp.removeAttribute('disabled');
-                inp.value = "This text field is readonly!";
-            }
-            else {
-                inp.setAttribute('disabled', 'disabled');
-                inp.removeAttribute('readonly');
-                inp.value = "This text field is disabled!";
-            }
-        });
-
-
         $(".chosen-select").chosen();
         $('#chosen-multiple-style').on('click', function (e) {
             var target = $(e.target).find('input[type=radio]');
@@ -519,192 +662,18 @@
         });
 
 
-        $("#input-size-slider").css('width', '200px').slider({
-            value: 1,
-            range: "min",
-            min: 1,
-            max: 8,
-            step: 1,
-            slide: function (event, ui) {
-                var sizing = ['', 'input-sm', 'input-lg', 'input-mini', 'input-small', 'input-medium', 'input-large', 'input-xlarge', 'input-xxlarge'];
-                var val = parseInt(ui.value);
-                $('#form-field-4').attr('class', sizing[val]).val('.' + sizing[val]);
-            }
-        });
-
-        $("#input-span-slider").slider({
-            value: 1,
-            range: "min",
-            min: 1,
-            max: 12,
-            step: 1,
-            slide: function (event, ui) {
-                var val = parseInt(ui.value);
-                $('#form-field-5').attr('class', 'col-xs-' + val).val('.col-xs-' + val);
-            }
-        });
 
 
-        $("#slider-range").css('height', '200px').slider({
-            orientation: "vertical",
-            range: true,
-            min: 0,
-            max: 100,
-            values: [17, 67],
-            slide: function (event, ui) {
-                var val = ui.values[$(ui.handle).index() - 1] + "";
-
-                if (!ui.handle.firstChild) {
-                    $(ui.handle).append("<div class='tooltip right in' style='display:none;left:16px;top:-6px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'></div></div>");
-                }
-                $(ui.handle.firstChild).show().children().eq(1).text(val);
-            }
-        }).find('a').on('blur', function () {
-            $(this.firstChild).hide();
-        });
-
-        $("#slider-range-max").slider({
-            range: "max",
-            min: 1,
-            max: 10,
-            value: 2
-        });
-
-        $("#eq > span").css({width: '90%', 'float': 'left', margin: '15px'}).each(function () {
-            // read initial values from markup and remove that
-            var value = parseInt($(this).text(), 10);
-            $(this).empty().slider({
-                value: value,
-                range: "min",
-                animate: true
-
-            });
-        });
 
 
-        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
-            no_file: 'No File ...',
-            btn_choose: 'Choose',
-            btn_change: 'Change',
-            droppable: false,
-            onchange: null,
-            thumbnail: false //| true | large
-            //whitelist:'gif|png|jpg|jpeg'
-            //blacklist:'exe|php'
-            //onchange:''
-            //
-        });
-
-        $('#id-input-file-3').ace_file_input({
-            style: 'well',
-            btn_choose: 'Drop files here or click to choose',
-            btn_change: null,
-            no_icon: 'icon-cloud-upload',
-            droppable: true,
-            thumbnail: 'small'//large | fit
-            //,icon_remove:null//set null, to hide remove/reset button
-            /**,before_change:function(files, dropped) {
-						//Check an example below
-						//or examples/file-upload.html
-						return true;
-					}*/
-            /**,before_remove : function() {
-						return true;
-					}*/
-            ,
-            preview_error: function (filename, error_code) {
-                //name of the file that failed
-                //error_code values
-                //1 = 'FILE_LOAD_FAILED',
-                //2 = 'IMAGE_LOAD_FAILED',
-                //3 = 'THUMBNAIL_FAILED'
-                //alert(error_code);
-            }
-
-        }).on('change', function () {
-            //console.log($(this).data('ace_input_files'));
-            //console.log($(this).data('ace_input_method'));
-        });
 
 
-        //dynamically change allowed formats by changing before_change callback function
-        $('#id-file-format').removeAttr('checked').on('change', function () {
-            var before_change
-            var btn_choose
-            var no_icon
-            if (this.checked) {
-                btn_choose = "Drop images here or click to choose";
-                no_icon = "icon-picture";
-                before_change = function (files, dropped) {
-                    var allowed_files = [];
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-                        if (typeof file === "string") {
-                            //IE8 and browsers that don't support File Object
-                            if (!(/\.(jpe?g|png|gif|bmp)$/i).test(file)) return false;
-                        }
-                        else {
-                            var type = $.trim(file.type);
-                            if (( type.length > 0 && !(/^image\/(jpe?g|png|gif|bmp)$/i).test(type) )
-                                || ( type.length == 0 && !(/\.(jpe?g|png|gif|bmp)$/i).test(file.name) )//for android's default browser which gives an empty string for file.type
-                            ) continue;//not an image so don't keep this file
-                        }
-
-                        allowed_files.push(file);
-                    }
-                    if (allowed_files.length == 0) return false;
-
-                    return allowed_files;
-                }
-            }
-            else {
-                btn_choose = "Drop files here or click to choose";
-                no_icon = "icon-cloud-upload";
-                before_change = function (files, dropped) {
-                    return files;
-                }
-            }
-            var file_input = $('#id-input-file-3');
-            file_input.ace_file_input('update_settings', {
-                'before_change': before_change,
-                'btn_choose': btn_choose,
-                'no_icon': no_icon
-            })
-            file_input.ace_file_input('reset_input');
-        });
 
 
-        $('#spinner1').ace_spinner({
-            value: 0,
-            min: 0,
-            max: 200,
-            step: 10,
-            btn_up_class: 'btn-info',
-            btn_down_class: 'btn-info'
-        })
-            .on('change', function () {
-                //alert(this.value)
-            });
-        $('#spinner2').ace_spinner({
-            value: 0,
-            min: 0,
-            max: 10000,
-            step: 100,
-            touch_spinner: true,
-            icon_up: 'icon-caret-up',
-            icon_down: 'icon-caret-down'
-        });
-        $('#spinner3').ace_spinner({
-            value: 0,
-            min: -100,
-            max: 100,
-            step: 10,
-            on_sides: true,
-            icon_up: 'icon-plus smaller-75',
-            icon_down: 'icon-minus smaller-75',
-            btn_up_class: 'btn-success',
-            btn_down_class: 'btn-danger'
-        });
+
+
+
+
 
 
         $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
@@ -712,14 +681,6 @@
         });
         $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
             $(this).next().focus();
-        });
-
-        $('#timepicker1').timepicker({
-            minuteStep: 1,
-            showSeconds: true,
-            showMeridian: false
-        }).next().on(ace.click_event, function () {
-            $(this).prev().focus();
         });
 
         $('#colorpicker1').colorpicker();
@@ -777,8 +738,8 @@
 
     });
 </script>
-<div style="display:none">
-    <script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>
-</div>
+<!--<div style="display:none">-->
+    <!--<script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>-->
+<!--</div>-->
 </body>
 </html>

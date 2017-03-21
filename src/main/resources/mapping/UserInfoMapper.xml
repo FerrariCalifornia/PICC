@@ -196,5 +196,11 @@
   <select id="getUserList" resultMap="BaseResultMap">
     SELECT * FROM user_info
   </select>
-
+  <select id="findUserByUsername" parameterType="String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user_info where username=#{username}
+  </select>
+  <select id="findRoles" parameterType="String" resultType="String">
+    select r.user_type from user_info u,user_type r where u.user_type_id=r.user_type_id and u.username=#{username}
+  </select>
 </mapper>

@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>druid monitor</title>
+    <title>电话销售系统登录界面</title>
     <script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"></script>
     <link rel="stylesheet" href="assets/css/bootstrap.min2.css">
     <!--<script type="text/javascript" src="js/jquery.min.js"></script>-->
@@ -89,12 +89,14 @@
             login : function() {
                 $.ajax({
                     type: 'POST',
-                    url: "/adminLogin",
+                    url: "/userLogin",
                     data: $("#loginForm").serialize(),
                     success: function(data) {
-                        if("success" == data)
-                            location.href = "index.html";
-                        else {
+                        if("success" == data){
+                            location.href = "/user";
+                        }else if("adminsuccess"== data){
+                            location.href = "/admin";
+                        } else {
                             $("#alertInfo").show();
                             $("#loginForm")[0].reset();
                         }

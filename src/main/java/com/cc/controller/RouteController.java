@@ -1,5 +1,8 @@
 package com.cc.controller;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class RouteController {
-
-    @RequestMapping("/test")
+    @RequestMapping("/user")
     public String test(){
-        System.out.println("rhis is test");
-        return  "index2";
+        return  "form-elements";
+    }
+    @RequestMapping("/admin")
+    public String test2(){
+        return  "admintable";
     }
 }

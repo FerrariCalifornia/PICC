@@ -1,6 +1,8 @@
 package com.cc.service.impl;
 
+import com.cc.dao.UserInfoMapper;
 import com.cc.dao.UserRoleMapper;
+import com.cc.pojo.UserInfo;
 import com.cc.pojo.UserRole;
 import com.cc.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +14,22 @@ import org.springframework.stereotype.Service;
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
     @Autowired
-    private UserRoleMapper userRoleMapper;
+    private UserInfoMapper userInfoMapper;
 
 
     @Override
-    public void signIn(UserRole user) {
-        userRoleMapper.insert(user);
+    public void signIn(UserInfo user) {
+        userInfoMapper.insert(user);
 
     }
 
     @Override
-    public UserRole findUserByUsername(String username) {
-        return userRoleMapper.findUserByUsername(username);
+    public UserInfo findUserByUsername(String username) {
+        return userInfoMapper.findUserByUsername(username);
+    }
+
+    @Override
+    public String findUserType(String username) {
+        return userInfoMapper.findRoles(username);
     }
 }
