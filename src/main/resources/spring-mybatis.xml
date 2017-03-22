@@ -96,6 +96,9 @@
                 <!--authc表示需要认证 没有进行身份认证是不能进行访问的-->
                 /user=authc,roles[user]
                 /admin=authc,roles[admin]
+                /tables.html=authc,roles[admin]
+                /admintable.html=authc,roles[admin]
+
                 /*=authc
                 <!--/test=roles[teacher]-->
                 <!--/getCustomerList=roles[2]-->
