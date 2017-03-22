@@ -7,22 +7,21 @@
     <link rel="stylesheet" href="assets/bootstrap-table.css">
 
     <link rel="stylesheet" href="assets/examples.css">
-    <script src="assets/bootstrap-table.js"></script>
     <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/bootstrap-table.js"></script>
     <script src="assets/js/bootbox.min.js"></script>
     <script src="assets/js/bootstrap-editable.js"></script>
     <script src="assets/ga.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
-    <![endif]-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>-->
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>-->
+    <!--<![endif]&ndash;&gt;-->
 </head>
 <body>
 <div class="container">
-    <h1>Bootstrap Table Examples <a href="https://github.com/wenzhixin/bootstrap-table-examples" class="btn btn-primary" role="button" target="_blank">Learn more &raquo;</a></h1>
     <div id="toolbar">
         <button id="remove" class="btn btn-danger" disabled>
             <i class="glyphicon glyphicon-remove"></i> Delete
@@ -132,7 +131,7 @@
         });
         $table.on('expand-row.bs.table', function (e, index, row, $detail) {
             if (index % 2 == 1) {
-                $detail.html('Loading from ajax request...');
+                $detail.html('/getUserList');
                 $.get('LICENSE', function (res) {
                     $detail.html(res.replace(/\n/g, '<br>'));
                 });

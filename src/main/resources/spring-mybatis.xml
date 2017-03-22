@@ -97,8 +97,8 @@
                 /user=authc,roles[user]
                 /admin=authc,roles[admin]
                 /tables.html=authc,roles[admin]
+                /usercrud.html=authc,roles[admin]
                 /admintable.html=authc,roles[admin]
-
                 /*=authc
                 <!--/test=roles[teacher]-->
                 <!--/getCustomerList=roles[2]-->

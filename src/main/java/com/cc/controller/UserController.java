@@ -5,6 +5,7 @@ import com.cc.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,7 +40,8 @@ public class UserController {
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public String addUser(UserInfo user) {
+    public String addUser(@RequestBody UserInfo user) {
+
         userService.addUser(user);
         return "success";
     }
@@ -53,7 +55,8 @@ public class UserController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteUser(UserInfo user) {
+    public String deleteUser(@RequestBody UserInfo user) {
+        System.out.println(user);
         userService.deleteUser(user);
         return "success";
     }
