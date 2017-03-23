@@ -139,7 +139,8 @@ CREATE TABLE `user_info` (
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_info_user_id_uindex` (`user_id`)
+  UNIQUE KEY `user_info_user_id_uindex` (`user_id`),
+  UNIQUE KEY `user_info_username_uindex` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -149,7 +150,7 @@ CREATE TABLE `user_info` (
 
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
-INSERT INTO `user_info` VALUES (1,'1','11','1'),(12,'12','123','123'),(123123,'123123','hehe','1231234');
+INSERT INTO `user_info` VALUES (1,'12121212','cc','cc'),(2,'123','123','123'),(2,'123123','hehe','1231234'),(1,'admin','admin','admin'),(2,'user1','testuser','testuser');
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,6 +202,7 @@ CREATE TABLE `user_type` (
 
 LOCK TABLES `user_type` WRITE;
 /*!40000 ALTER TABLE `user_type` DISABLE KEYS */;
+INSERT INTO `user_type` VALUES (1,'admin'),(2,'user');
 /*!40000 ALTER TABLE `user_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -213,4 +215,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-20  9:41:46
+-- Dump completed on 2017-03-23 19:32:54
