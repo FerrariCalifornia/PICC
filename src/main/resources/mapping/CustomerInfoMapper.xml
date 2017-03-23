@@ -241,8 +241,9 @@
     where customer_id = #{customerId,jdbcType=VARCHAR}
   </update>
 
-  <select id="getCustomerList" resultMap="BaseResultMap">
-    SELECT * FROM customer_info
+  <select id="getCustomerList" parameterType="com.cc.pojo.Page" resultMap="BaseResultMap">
+    SELECT * FROM customer_info limit
+    #{pageNum},#{pageSize}
   </select>
   <select id="getOneCustomer" resultMap="BaseResultMap" parameterType="int">
     SELECT * FROM customer_info WHERE customer_id = #{id}

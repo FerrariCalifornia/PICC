@@ -4,6 +4,7 @@ import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.CustomerInfoExample;
 import java.util.List;
 
+import com.cc.pojo.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface CustomerInfoMapper {
@@ -19,7 +20,7 @@ public interface CustomerInfoMapper {
     int insertSelective(CustomerInfo record);
 
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
-    List<CustomerInfo> getCustomerList();
+    List<CustomerInfo> getCustomerList(Page page);
 
     CustomerInfo selectByPrimaryKey(String customerId);
 

@@ -1,15 +1,14 @@
 package com.cc.controller;
 
 import com.cc.pojo.CustomerInfo;
+import com.cc.pojo.Page;
 import com.cc.service.CustomerInfoService;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +30,14 @@ public class CustomerInfoController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/getCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getFeedbackList(){
+    public String getFeedbackList(@RequestParam(required = false, defaultValue = "0") int pageNum,
+                                  @RequestParam(required = false, defaultValue = "5") int pageSize){
+
+        Page page = new Page();
+        page.setPageNum(pageNum);
+        page.setPageSize(pageSize);
         Gson gson = new Gson();
-        json = gson.toJson(customerInfoService.getAllCustomerInfo());
+        json = gson.toJson(customerInfoService.getAllCustomerInfo(page));
         return json;
     }
 
