@@ -12,6 +12,7 @@ import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Service("customerInfoService")
 public class CustomerInfoServiceImpl implements CustomerInfoService {
-    @Autowired
+    @Resource
     private CustomerInfoMapper customerInfoMapper;
 
 
@@ -27,6 +28,16 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public List<CustomerInfo> getAllCustomerInfo(Page page) {
         return customerInfoMapper.getCustomerList(page);
 
+    }
+
+    @Override
+    public List<CustomerInfo> getCustomer20() {
+        return customerInfoMapper.getCustomer20();
+    }
+
+    @Override
+    public List<CustomerInfo> getCustomerListFromStatusTable(String user_id) {
+        return customerInfoMapper.getCustomerListFromStatusTable(user_id);
     }
 
     @Override

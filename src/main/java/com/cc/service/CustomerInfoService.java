@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface CustomerInfoService {
     List<CustomerInfo> getAllCustomerInfo(Page page);
+    List<CustomerInfo> getCustomer20();
+    List<CustomerInfo> getCustomerListFromStatusTable(String user_id);
     CustomerInfo getOneCustomer(Integer id);
     PageInfo<CustomerInfo> queryByPage(Integer pageNo, Integer pageSize);
     void insertCustomerInfo(CustomerInfo customerInfo);

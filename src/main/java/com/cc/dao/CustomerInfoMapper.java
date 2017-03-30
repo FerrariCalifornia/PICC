@@ -21,6 +21,8 @@ public interface CustomerInfoMapper {
 
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
     List<CustomerInfo> getCustomerList(Page page);
+    List<CustomerInfo> getCustomer20();
+    List<CustomerInfo> getCustomerListFromStatusTable(String user_id);
 
     CustomerInfo selectByPrimaryKey(String customerId);
 

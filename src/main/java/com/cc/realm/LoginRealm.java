@@ -9,6 +9,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
 /**
  * Created by cc on 2017/3/2.
  */
+@Component
 public class LoginRealm extends AuthorizingRealm {
 
     @Resource
