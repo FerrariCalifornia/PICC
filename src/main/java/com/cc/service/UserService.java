@@ -11,5 +11,5 @@ public interface UserService {
     List<UserInfo> getUserList();
     void addUser(UserInfo userInfo);
     void deleteUser(UserInfo userInfo);
-
+    UserInfo findUserByUsername(String username);
 }

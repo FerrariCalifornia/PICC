@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(UserInfo userInfo) {
             userInfoMapper.deleteByPrimaryKey(userInfo.getUserId());
     }
+
+    @Override
+    public UserInfo findUserByUsername(String username) {
+        return userInfoMapper.findUserByUsername(username);
+    }
 }

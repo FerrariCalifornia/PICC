@@ -1,8 +1,12 @@
 package com.cc.controller;
 
 import com.cc.pojo.CustomerInfo;
+import com.cc.pojo.CustomerStatus;
 import com.cc.pojo.Page;
 import com.cc.service.CustomerInfoService;
+import com.cc.service.CustomerStatusService;
+import com.cc.service.LoginService;
+import com.cc.service.UserService;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
@@ -13,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,8 +34,14 @@ public class CustomerInfoController {
     private static String json;
 
 
-    @Autowired
+    @Resource
     private CustomerInfoService customerInfoService;
+    @Resource
+    private CustomerStatusService customerStatusService;
+    @Resource
+    private UserService userService;
+    @Resource
+    private LoginService loginService;
     /*
      get customer list
  */
@@ -41,23 +52,30 @@ public class CustomerInfoController {
                                   @RequestParam(required = false, defaultValue = "10") int pageSize){
 
         Gson gson = new Gson();
-
         Subject currentUser = SecurityUtils.getSubject();
         String username = currentUser.getPrincipal().toString();
+
+        String user_id = loginService.findUserByUsername(username).getUserId();
         List<CustomerInfo> customerInfoList = customerInfoService.getCustomerListFromStatusTable(username);
-        if (customerInfoList==null){
+        if (customerInfoList.size()==0){
             Page page = new Page();
             page.setPageNum(0);
             page.setPageSize(20);
             List<CustomerInfo> customerInfoList2=customerInfoService.getAllCustomerInfo(page);
+            for (CustomerInfo customerInfo:customerInfoList2 //注意此处的名字 和上面很像，后面多了个2
+                 ) {
+                CustomerStatus customerStatus = new CustomerStatus();
+                customerStatus.setCustomerId(customerInfo.getCustomerId());
+                customerStatus.setUserId(user_id);
+                customerStatus.setStatus(customerInfo.getStatus());
+                customerStatusService.insert(customerStatus);
+            }
+            json=gson.toJson(customerInfoList2);
+
+        }else {
+            json=gson.toJson(customerInfoService.getCustomerListFromStatusTable(username));
+
         }
-
-
-        json=gson.toJson(customerInfoList);
-
-
-//        json = gson.toJson(customerInfoService.getAllCustomerInfo(page));
-
 
         return json;
     }

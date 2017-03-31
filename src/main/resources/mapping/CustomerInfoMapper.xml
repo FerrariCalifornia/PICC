@@ -259,7 +259,7 @@
   AND customer_info.status=0 AND customer_status.user_id=#{user_id}
   </select>
     <select id="getCustomerIdAndStatus" resultMap="BaseResultMap" parameterType="String">
-        SELECT customer_id, status from customer_info WHERE 1=1
+        SELECT customer_id, status from customer_info WHERE status=0 limit 0,20
     </select>
 
 </mapper>
