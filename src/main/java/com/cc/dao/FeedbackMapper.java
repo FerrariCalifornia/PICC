@@ -28,4 +28,5 @@ public interface FeedbackMapper {
     int updateByPrimaryKeySelective(Feedback record);
 
     int updateByPrimaryKey(Feedback record);
+    Feedback getFeedbackByCustomerId(String customer_id);
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface FeedbackService {
     List<Feedback> getFeedback();
     void insertFeedback(Feedback feedback);
+    Feedback getFeedbackByCustomerId(String customer_id);
 }

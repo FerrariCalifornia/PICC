@@ -7,6 +7,15 @@ public class Page {
     private Integer pageNum;
     private Integer PageSize;
 
+
+    public Page() {
+    }
+
+    public Page(Integer pageNum, Integer pageSize) {
+        this.pageNum = pageNum;
+        PageSize = pageSize;
+    }
+
     public Integer getPageNum() {
         return pageNum;
     }

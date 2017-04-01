@@ -21,6 +21,7 @@ public interface UserInfoMapper {
 
     List<UserInfo> selectByExample(UserInfoExample example);
     List<UserInfo> getUserList();
+    List<UserInfo> findNormalUser();
     UserInfo selectByPrimaryKey(String userId);
 
     int updateByExampleSelective(@Param("record") UserInfo record, @Param("example") UserInfoExample example);

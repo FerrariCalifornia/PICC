@@ -26,4 +26,9 @@ public class FeedbcakServiceImpl implements FeedbackService {
     public void insertFeedback(Feedback feedback) {
         feedbackMapper.insert(feedback);
     }
+
+    @Override
+    public Feedback getFeedbackByCustomerId(String customer_id) {
+        return feedbackMapper.getFeedbackByCustomerId(customer_id);
+    }
 }

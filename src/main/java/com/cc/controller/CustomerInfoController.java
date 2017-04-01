@@ -3,6 +3,7 @@ package com.cc.controller;
 import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.CustomerStatus;
 import com.cc.pojo.Page;
+import com.cc.pojo.UseridAndPageInfo;
 import com.cc.service.CustomerInfoService;
 import com.cc.service.CustomerStatusService;
 import com.cc.service.LoginService;
@@ -54,28 +55,32 @@ public class CustomerInfoController {
         Gson gson = new Gson();
         Subject currentUser = SecurityUtils.getSubject();
         String username = currentUser.getPrincipal().toString();
-
         String user_id = loginService.findUserByUsername(username).getUserId();
-        List<CustomerInfo> customerInfoList = customerInfoService.getCustomerListFromStatusTable(username);
-        if (customerInfoList.size()==0){
-            Page page = new Page();
-            page.setPageNum(0);
-            page.setPageSize(20);
-            List<CustomerInfo> customerInfoList2=customerInfoService.getAllCustomerInfo(page);
-            for (CustomerInfo customerInfo:customerInfoList2 //注意此处的名字 和上面很像，后面多了个2
-                 ) {
-                CustomerStatus customerStatus = new CustomerStatus();
-                customerStatus.setCustomerId(customerInfo.getCustomerId());
-                customerStatus.setUserId(user_id);
-                customerStatus.setStatus(customerInfo.getStatus());
-                customerStatusService.insert(customerStatus);
-            }
-            json=gson.toJson(customerInfoList2);
+        UseridAndPageInfo useridAndPageInfo = new UseridAndPageInfo();
+        useridAndPageInfo.setUser_id(user_id);
+        useridAndPageInfo.setPage_num(pageNum*pageSize);
+        useridAndPageInfo.setPage_size(pageSize);
+        List<CustomerInfo> customerInfoList = customerInfoService.getCustomerListFromStatusTable(useridAndPageInfo);
 
-        }else {
-            json=gson.toJson(customerInfoService.getCustomerListFromStatusTable(username));
+        json=gson.toJson(customerInfoList);
 
-        }
+
+
+
+        return json;
+    }
+
+
+    @RequestMapping(value = "/getAllCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getFeedbackList(){
+
+        Gson gson = new Gson();
+        Subject currentUser = SecurityUtils.getSubject();
+        String username = currentUser.getPrincipal().toString();
+        String user_id = loginService.findUserByUsername(username).getUserId();
+        List<CustomerInfo> customerInfoList = customerInfoService.getAllCustomerListFromStatusTable(user_id);
+        json=gson.toJson(customerInfoList);
 
         return json;
     }

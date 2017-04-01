@@ -12,4 +12,5 @@ public interface UserService {
     void addUser(UserInfo userInfo);
     void deleteUser(UserInfo userInfo);
     UserInfo findUserByUsername(String username);
+    void assign_task();
 }

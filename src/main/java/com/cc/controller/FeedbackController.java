@@ -1,6 +1,7 @@
 package com.cc.controller;
 
 import com.cc.others.IdWorker;
+import com.cc.pojo.CustomerInfo;
 import com.cc.service.FeedbackService;
 import com.cc.pojo.Feedback;
 import com.google.gson.Gson;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by cc on 2017/3/9.
@@ -71,5 +73,16 @@ public class FeedbackController {
         map.put("message","success");
         String message = gson.toJson(map);
         return message;
+    }
+
+
+    @RequestMapping(value = "/getFeedbackByCustomerId",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    public void getOneCustomer(String customer_id,HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
+        Gson gson = new Gson();
+        PrintWriter pw = response.getWriter();
+        String json = gson.toJson(feedbackService.getFeedbackByCustomerId(customer_id));
+        pw.print(json);
+        pw.close();
     }
 }

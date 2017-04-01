@@ -3,6 +3,7 @@ package com.cc.service;
 import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.Page;
 import com.cc.pojo.UserInfo;
+import com.cc.pojo.UseridAndPageInfo;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 public interface CustomerInfoService {
     List<CustomerInfo> getAllCustomerInfo(Page page);
     List<CustomerInfo> getCustomer20();
-    List<CustomerInfo> getCustomerListFromStatusTable(String user_id);
+    List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);
+    List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo);
     CustomerInfo getOneCustomer(Integer id);
     PageInfo<CustomerInfo> queryByPage(Integer pageNo, Integer pageSize);
     void insertCustomerInfo(CustomerInfo customerInfo);

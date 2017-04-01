@@ -1,10 +1,7 @@
 package com.cc.service.impl;
 
 import com.cc.dao.CustomerInfoMapper;
-import com.cc.pojo.CustomerInfo;
-import com.cc.pojo.CustomerInfoExample;
-import com.cc.pojo.Page;
-import com.cc.pojo.UserInfo;
+import com.cc.pojo.*;
 import com.cc.service.CustomerInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -36,8 +33,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     @Override
-    public List<CustomerInfo> getCustomerListFromStatusTable(String user_id) {
-        return customerInfoMapper.getCustomerListFromStatusTable(user_id);
+    public List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id) {
+        return customerInfoMapper.getAllCustomerListFromStatusTable(user_id);
+    }
+
+    @Override
+    public List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo) {
+        return customerInfoMapper.getCustomerListFromStatusTable(useridAndPageInfo);
     }
 
     @Override

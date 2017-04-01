@@ -244,5 +244,8 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT * FROM feedback
   </select>
+  <select id="getFeedbackByCustomerId" parameterType="String" resultMap="BaseResultMap">
+    SELECT * FROM feedback WHERE customer_id =#{customer_id}
+  </select>
 
 </mapper>

@@ -203,4 +203,7 @@
   <select id="findRoles" parameterType="String" resultType="String">
     select r.user_type from user_info u,user_type r where u.user_type_id=r.user_type_id and u.username=#{username}
   </select>
+  <select id="findNormalUser" resultMap="BaseResultMap">
+    SELECT * from user_info WHERE user_type_id =2
+  </select>
 </mapper>
