@@ -1,4 +1,4 @@
-[TOC]
+[toc]
 # PICC
 ## form-element页面 点击下一个按钮 提交之后 右边的状态不会改变，删除右边table的第二栏即可。
 ## 提交完成后，保存的customer信息怎么分配？
