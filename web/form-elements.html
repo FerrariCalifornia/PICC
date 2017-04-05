@@ -6,7 +6,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- basic styles -->
-
+    <!-----Add page stylesheet---lzr-->
+    <link rel="stylesheet" href="assets/css/page-detail.css">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
 
@@ -300,7 +301,6 @@
                             &nbsp; &nbsp; &nbsp;
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-1"></div>
 
                     <div class="col-xs-12 col-sm-4">
                         <!-- PAGE CONTENT BEGINS -->
@@ -439,6 +439,8 @@
                                             var table0 = document.createElement("table");
                                             table0.setAttribute("id", "sample-table-0");
                                             box.appendChild(table0);
+
+                                            //---Get next tableindex---lzr
                                             for(var i=0;i<tabledata.length;i++){
                                                     if(customerId==tabledata[i].customerId){
                                                         tableindex=i+1;
@@ -500,12 +502,15 @@
 
                     </div>
 
-                    <div class="col-xs-12 col-sm-1"></div>
-                    <div class="col-xs-12 col-sm-2">
+                    <!-- ---Resize table width---lzr-->
+                    <div class="col-xs-12 col-sm-2" style="width:28%;">
                         <table id="sample-table-1"></table>
                         <script type="text/javascript">
                             $('#sample-table-1').bootstrapTable({
-                                url: '/getCustomerList',
+                                url: '/getCustomerListByUserName',
+                                pagination: true,       //---Add pagination---lzr
+                                pageSize: 10,
+                                classes: 'table table-striped table-bordered table-hover',
                                 columns: [{
                                     field: 'customerId',
                                     title: '客户ID'
@@ -513,76 +518,81 @@
                                     field: 'status',
                                     title: '状态'
                                 }],
-                                onClickRow: function (row) {
-//                                    $('#sample-table-0').bootstrapTable('removeAll');
+                                onClickRow: function (row, element) {          //---Add parameters 'element', represents tr element---lzr
                                     $('#table0').empty();
                                     var box = document.getElementById("table0");
                                     var table0 = document.createElement("table");
                                     table0.setAttribute("id", "sample-table-0");
                                     box.appendChild(table0);
-//                                    console.log(row);
-//                                    console.log(row.customerId);
-                                    $('#sample-table-0').bootstrapTable({
-                                        url: '/getOneCustomer?id=' + row.customerId,
-                                        columns: [{
-                                            field: 'customerId',
-                                            title: '客户ID'
-                                        }, {
-                                            field: 'customerPhone',
-                                            title: '电话号码'
-                                        }, {
-                                            field: 'gender',
-                                            title: '性别'
-                                        }, {
-                                            field: 'age',
-                                            title: '年龄'
-                                        }, {
-                                            field: 'model',
-                                            title: '车型'
-                                        }, {
-                                            field: 'value',
-                                            title: '客户价值'
-                                        }, {
-                                            field: 'status',
-                                            title: '状态'
-                                        }]
-                                    });
-                                    $('#sample-table-0').bootstrapTable('toggleView');
+
+                                    //---HighLight active row---lzr
+                                    $("#sample-table-1 tr td").removeAttr("id");
+                                    $(element).children("td").attr("id","table-row-highlight");
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(row.customerId);
 
                                 },
                                 onLoadSuccess: function () {
                                     //用获取table(通过其id ) 获取指定的行，列
                                     var id = document.getElementById("sample-table-1").rows[1].cells[0].innerHTML;
                                     console.log(id + "------");
-                                    $('#sample-table-0').bootstrapTable({
-                                        url: '/getOneCustomer?id=' + id,
-                                        columns: [{
-                                            field: 'customerId',
-                                            title: '客户ID'
-                                        }, {
-                                            field: 'customerPhone',
-                                            title: '电话号码'
-                                        }, {
-                                            field: 'gender',
-                                            title: '性别'
-                                        }, {
-                                            field: 'age',
-                                            title: '年龄'
-                                        }, {
-                                            field: 'model',
-                                            title: '车型'
-                                        }, {
-                                            field: 'value',
-                                            title: '客户价值'
-                                        }, {
-                                            field: 'status',
-                                            title: '状态'
-                                        }]
-                                    });
-                                    $('#sample-table-0').bootstrapTable('toggleView');
+                                    //---Highlight first row---lzr
+                                    $("#sample-table-1 tr[data-index='0'] td").attr("id","table-row-highlight");
+
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(id);
+                                },
+                                onPageChange: function(number){     //---Fires when change page number---lzr
+                                    //---Hightlight the first row of table---lzr
+                                    $("#sample-table-1").find("tr").eq(1).children("td").attr("id","table-row-highlight");
+
+                                    //---Refresh #sample-table-0 contents
+                                    $('#table0').empty();
+                                    var box = document.getElementById("table0");
+                                    var table0 = document.createElement("table");
+                                    table0.setAttribute("id", "sample-table-0");
+                                    box.appendChild(table0);
+
+                                    //用获取table(通过其id ) 获取指定的行，列
+                                    var id = document.getElementById("sample-table-1").rows[1].cells[0].innerHTML;
+                                    console.log(id + "------");
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(id);
                                 }
                             });
 
+                            //---Generate customer info table---lzr
+                            function generateCustomerInfoTable(id) {
+                                $('#sample-table-0').bootstrapTable({
+                                    url: '/getOneCustomer?id=' + id,
+                                    columns: [{
+                                        field: 'customerId',
+                                        title: '客户ID'
+                                    }, {
+                                        field: 'customerPhone',
+                                        title: '电话号码'
+                                    }, {
+                                        field: 'gender',
+                                        title: '性别'
+                                    }, {
+                                        field: 'age',
+                                        title: '年龄'
+                                    }, {
+                                        field: 'model',
+                                        title: '车型'
+                                    }, {
+                                        field: 'value',
+                                        title: '客户价值'
+                                    }, {
+                                        field: 'status',
+                                        title: '状态'
+                                    }]
+                                });
+                                $('#sample-table-0').bootstrapTable('toggleView');
+                            }
 
                             $(document).ready(function () {
 
@@ -629,117 +639,6 @@
 <script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
 
-<!-- inline scripts related to this page -->
 
-<script type="text/javascript">
-    jQuery(function ($) {
-        $(".chosen-select").chosen();
-        $('#chosen-multiple-style').on('click', function (e) {
-            var target = $(e.target).find('input[type=radio]');
-            var which = parseInt(target.val());
-            if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
-            else $('#form-field-select-4').removeClass('tag-input-style');
-        });
-
-
-        $('[data-rel=tooltip]').tooltip({container: 'body'});
-        $('[data-rel=popover]').popover({container: 'body'});
-
-        $('textarea[class*=autosize]').autosize({append: "\n"});
-        $('textarea.limited').inputlimiter({
-            remText: '%n character%s remaining...',
-            limitText: 'max allowed : %n.'
-        });
-
-        $.mask.definitions['~'] = '[+-]';
-        $('.input-mask-date').mask('99/99/9999');
-        $('.input-mask-phone').mask('(999) 999-9999');
-        $('.input-mask-eyescript').mask('~9.99 ~9.99 999');
-        $(".input-mask-product").mask("a*-999-a999", {
-            placeholder: " ", completed: function () {
-                alert("You typed the following: " + this.val());
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-            $(this).prev().focus();
-        });
-        $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
-            $(this).next().focus();
-        });
-
-        $('#colorpicker1').colorpicker();
-        $('#simple-colorpicker-1').ace_colorpicker();
-
-
-        $(".knob").knob();
-
-
-        //we could just set the data-provide="tag" of the element inside HTML, but IE8 fails!
-        var tag_input = $('#form-field-tags');
-        if (!( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))) {
-            tag_input.tag(
-                {
-                    placeholder: tag_input.attr('placeholder'),
-                    //enable typeahead by specifying the source array
-                    source: ace.variable_US_STATES,//defined in ace.js >> ace.enable_search_ahead
-                }
-            );
-        }
-        else {
-            //display a textarea for old IE, because it doesn't support this plugin or another one I tried!
-            tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
-            //$('#form-field-tags').autosize({append: "\n"});
-        }
-
-
-        /////////
-        $('#modal-form input[type=file]').ace_file_input({
-            style: 'well',
-            btn_choose: 'Drop files here or click to choose',
-            btn_change: null,
-            no_icon: 'icon-cloud-upload',
-            droppable: true,
-            thumbnail: 'large'
-        })
-
-        //chosen plugin inside a modal will have a zero width because the select element is originally hidden
-        //and its width cannot be determined.
-        //so we set the width after modal is show
-        $('#modal-form').on('shown.bs.modal', function () {
-            $(this).find('.chosen-container').each(function () {
-                $(this).find('a:first-child').css('width', '210px');
-                $(this).find('.chosen-drop').css('width', '210px');
-                $(this).find('.chosen-search input').css('width', '200px');
-            });
-        })
-        /**
-         //or you can activate the chosen plugin after modal is shown
-         //this way select element becomes visible with dimensions and chosen works as expected
-         $('#modal-form').on('shown', function () {
-					$(this).find('.modal-chosen').chosen();
-				})
-         */
-
-    });
-</script>
-<!--<div style="display:none">-->
-    <!--<script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>-->
-<!--</div>-->
 </body>
 </html>

@@ -14,6 +14,7 @@ public interface CustomerStatusMapper {
 
     int insertSelective(CustomerStatus record);
     void deleteTable();
+    void updateCustomerStatus(Integer status, String customer_id);
 
     List<CustomerStatus> selectByExample(CustomerStatusExample example);
 

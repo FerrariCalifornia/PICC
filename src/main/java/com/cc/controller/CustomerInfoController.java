@@ -44,14 +44,13 @@ public class CustomerInfoController {
     @Resource
     private LoginService loginService;
     /*
-     get customer list
+     get customer list 带分页
  */
 
     @RequestMapping(value = "/getCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getFeedbackList(@RequestParam(required = false, defaultValue = "0") int pageNum,
                                   @RequestParam(required = false, defaultValue = "10") int pageSize){
-
         Gson gson = new Gson();
         Subject currentUser = SecurityUtils.getSubject();
         String username = currentUser.getPrincipal().toString();
@@ -61,27 +60,35 @@ public class CustomerInfoController {
         useridAndPageInfo.setPage_num(pageNum*pageSize);
         useridAndPageInfo.setPage_size(pageSize);
         List<CustomerInfo> customerInfoList = customerInfoService.getCustomerListFromStatusTable(useridAndPageInfo);
-
         json=gson.toJson(customerInfoList);
-
-
-
-
         return json;
     }
 
+    /**
+     * 返回所有根据用户名查到的客户信息，不进行分页。
+     * @return
+     */
 
-    @RequestMapping(value = "/getAllCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "/getCustomerListByUserName",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getFeedbackList(){
-
+    public String getCustomerListByUserName(){
         Gson gson = new Gson();
         Subject currentUser = SecurityUtils.getSubject();
         String username = currentUser.getPrincipal().toString();
         String user_id = loginService.findUserByUsername(username).getUserId();
         List<CustomerInfo> customerInfoList = customerInfoService.getAllCustomerListFromStatusTable(user_id);
         json=gson.toJson(customerInfoList);
+        return json;
+    }
 
+
+    @RequestMapping(value = "/getAllCustomerList",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getAllCustomerList(){
+        Gson gson = new Gson();
+        List<CustomerInfo> customerInfoList = customerInfoService.getAllCustomerList();
+        json=gson.toJson(customerInfoList);
         return json;
     }
 

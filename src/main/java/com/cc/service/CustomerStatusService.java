@@ -7,5 +7,6 @@ import com.cc.pojo.CustomerStatus;
  */
 public interface CustomerStatusService {
     void deleteTable();
+    void updateCustomerStatus(Integer status,String customer_id);
     void insert(CustomerStatus customerStatus);
 }

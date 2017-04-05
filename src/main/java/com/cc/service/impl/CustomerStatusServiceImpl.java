@@ -20,6 +20,11 @@ public class CustomerStatusServiceImpl implements CustomerStatusService {
     }
 
     @Override
+    public void updateCustomerStatus(Integer status, String customer_id) {
+        customerStatusMapper.updateCustomerStatus(status,customer_id);
+    }
+
+    @Override
     public void insert(CustomerStatus customerStatus) {
         customerStatusMapper.insert(customerStatus);
     }

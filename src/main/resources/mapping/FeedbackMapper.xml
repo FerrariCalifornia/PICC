@@ -9,6 +9,16 @@
     <result column="sales_date" property="salesDate" jdbcType="DATE" />
     <result column="last_purchasedate" property="lastPurchasedate" jdbcType="DATE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.cc.pojo.FeedbackWithStatus" >
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="fail_reason_type" property="failReasonType" jdbcType="VARCHAR" />
+    <result column="sales_date" property="salesDate" jdbcType="DATE" />
+    <result column="last_purchasedate" property="lastPurchasedate" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -244,8 +254,19 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT * FROM feedback
   </select>
-  <select id="getFeedbackByCustomerId" parameterType="String" resultMap="BaseResultMap">
-    SELECT * FROM feedback WHERE customer_id =#{customer_id}
-  </select>
+  <select id="getFeedbackByCustomerId" parameterType="String" resultMap="BaseResultMap2">
+  SELECT feedback.last_purchasedate,feedback.fail_reason_type,remark,status FROM feedback join customer_info WHERE customer_info.customer_id=feedback.customer_id
+AND feedback.customer_id = #{customer_id};
 
+  </select>
+  <update id="updateFeedbackList" parameterType="com.cc.pojo.Feedback">
+    UPDATE feedback
+    SET user_id = #{userId},sales_date = #{salesDate},last_purchasedate=#{lastPurchasedate},remark=#{remark},
+    fail_reason_type = #{failReasonType}
+    WHERE customer_id = #{customerId}
+  </update>
+<select id="asd">
+  SELECT feedback.last_purchasedate,feedback.fail_reason_type,remark,status FROM feedback join customer_info WHERE customer_info.customer_id=feedback.customer_id
+AND feedback.customer_id = #{customer_id};
+</select>
 </mapper>

@@ -2,6 +2,8 @@ package com.cc.dao;
 
 import com.cc.pojo.CustomerInfo;
 import com.cc.pojo.CustomerInfoExample;
+
+import java.util.HashMap;
 import java.util.List;
 
 import com.cc.pojo.Page;
@@ -23,6 +25,8 @@ public interface CustomerInfoMapper {
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
     List<CustomerInfo> getCustomerList(Page page);
     List<CustomerInfo> getCustomer20();
+    List<CustomerInfo> getAllCustomerList();
+    void updateCustomerStatus(Integer status,String customer_id);
     List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);
     List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo);
 

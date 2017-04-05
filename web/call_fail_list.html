@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- basic styles -->
 
+    <!-----Add page stylesheet---lzr-->
+    <link rel="stylesheet" href="assets/css/page-detail.css">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
 
@@ -142,7 +144,7 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="#">
+                            <a href="/logout">
                                 <i class="icon-off"></i>
                                 Logout
                             </a>
@@ -300,7 +302,6 @@
                             &nbsp; &nbsp; &nbsp;
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-1"></div>
 
                     <div class="col-xs-12 col-sm-4">
                         <!-- PAGE CONTENT BEGINS -->
@@ -349,6 +350,7 @@
                                                 <label for="failReason">推销失败原因</label>
 
                                                 <select class="form-control" id="failReason" name="failReason">
+                                                    <!--Add attribute name, Corresponds to the fields 'fail_reason_type' in the database-->
                                                     <!--<option value="">&nbsp;</option>-->
                                                     <option value="未打通">未打通</option>
                                                     <option value="无人接听">无人接听</option>
@@ -387,7 +389,7 @@
                                             </div>
                                             <hr/>
                                             <div class="col-md-offset-2">
-                                                <button class="btn btn-info" type="button" value="submit"
+                                                <button class="btn btn-info" id="submitBtn" type="button" value="submit"
                                                         onclick="fsubmit()">
                                                     <i class="icon-ok bigger-110"></i>
                                                     下一个
@@ -408,10 +410,9 @@
 
                         <script type="text/javascript">
                             function fsubmit() {
-//                                var id = document.getElementById("sample-table-0").rows[1].cells[0].innerHTML;
-
+                                //---Post current customer feedback info---lzr
                                 $.ajax({
-                                    url: "/postFeedback",
+                                    url: "/updateFeedback",
                                     method: 'POST',
                                     dataType: 'json',
                                     data: {
@@ -480,12 +481,7 @@
                                             }else {
                                                 alert("已经是最后一个了")
                                             }
-
-
-
-
                                         }
-
 
                                         // Show errors
                                         if (resp.message == 'error') {
@@ -493,6 +489,41 @@
                                         }
                                     }
                                 });
+
+                                //---Get next customer info, highlight next row
+                                //---Get current customerId---lzr
+                                var currentCustomerId = $('.card-view')[0].lastChild.innerHTML;
+                                //---Check whether has next row
+                                var tableData = $('#sample-table-1').bootstrapTable('getData');
+                                var lastCustomerId = tableData[tableData.length-1].customerId
+                                var hasNext = currentCustomerId+1 == lastCustomerId ? false : true;
+                                generateFeedbackInfoTable(currentCustomerId+1, hasNext);
+                                //---Highlight customer status list---lzr
+                                if(hasNext){
+                                    //获取当前页最后一行数据的customerId
+                                    var curPageLastCustomerId = $("#sample-table-1").lastChild("tr").find("td").eq(0);
+                                    //下一个数据跨页
+                                    if(currentCustomerId == curPageLastCustomerId){
+                                        //先翻页，自动高亮
+                                        $(".col-xs-12 .page-next a").click();
+                                    }
+                                    //如果不跨页，则高亮下一行
+                                    else{
+                                        var currentTableIndex = $("#sample-table-1").parent().attr("data-index");
+                                        $("#sample-table-1 tr td").removeAttr("id");
+                                        $("#sample-table-1").find("tr[data-index ="+ currentTableIndex+1 +"] td").attr("id","table-row-highlight");
+                                    }
+                                }
+
+                                //---Update customer info table---lzr
+                                $('#table0').empty();
+                                var box = document.getElementById("table0");
+                                var table0 = document.createElement("table");
+                                table0.setAttribute("id", "sample-table-0");
+                                box.appendChild(table0);
+                                //---Call the generateCustomerInfoTable(id) function---lzr
+                                generateCustomerInfoTable(currentCustomerId+1);
+
                             }
                         </script>
 
@@ -500,88 +531,164 @@
 
                     </div>
 
-                    <div class="col-xs-12 col-sm-1"></div>
-                    <div class="col-xs-12 col-sm-2">
+                    <div class="col-xs-12 col-sm-2" style="width:28%;">
                         <table id="sample-table-1"></table>
                         <script type="text/javascript">
                             $('#sample-table-1').bootstrapTable({
-                                url: '/getCustomerList',
+                                url: '/getAllCustomerList',
+                                pagination: true,           //---Add pagination---lzr
+                                pageSize: 10,
+                                classes: 'table table-striped table-bordered table-hover',
                                 columns: [{
                                     field: 'customerId',
-                                    title: '客户ID'
+                                    title: '客户ID',
+                                    width: '64%'
                                 }, {
                                     field: 'status',
-                                    title: '状态'
+                                    title: '状态',
+                                    width: '64%'
                                 }],
-                                onClickRow: function (row) {
-//                                    $('#sample-table-0').bootstrapTable('removeAll');
+                                onClickRow: function (row, element) {   //---Add parameters 'element', represents tr element---lzr
                                     $('#table0').empty();
                                     var box = document.getElementById("table0");
                                     var table0 = document.createElement("table");
                                     table0.setAttribute("id", "sample-table-0");
                                     box.appendChild(table0);
-//                                    console.log(row);
-//                                    console.log(row.customerId);
-                                    $('#sample-table-0').bootstrapTable({
-                                        url: '/getOneCustomer?id=' + row.customerId,
-                                        columns: [{
-                                            field: 'customerId',
-                                            title: '客户ID'
-                                        }, {
-                                            field: 'customerPhone',
-                                            title: '电话号码'
-                                        }, {
-                                            field: 'gender',
-                                            title: '性别'
-                                        }, {
-                                            field: 'age',
-                                            title: '年龄'
-                                        }, {
-                                            field: 'model',
-                                            title: '车型'
-                                        }, {
-                                            field: 'value',
-                                            title: '客户价值'
-                                        }, {
-                                            field: 'status',
-                                            title: '状态'
-                                        }]
-                                    });
-                                    $('#sample-table-0').bootstrapTable('toggleView');
 
+                                    //---HighLight active row---lzr
+                                    $("#sample-table-1 tr td").removeAttr("id");
+                                    $(element).children("td").attr("id","table-row-highlight");
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(row.customerId);
+
+                                    //---Check whether has next row
+                                    var tableData = $('#sample-table-1').bootstrapTable('getData');
+                                    var lastCustomerId = tableData[tableData.length-1].customerId
+                                    var hasNext = row.customerId == lastCustomerId ? false : true;
+                                    generateFeedbackInfoTable(row.customerId, hasNext);
                                 },
                                 onLoadSuccess: function () {
                                     //用获取table(通过其id ) 获取指定的行，列
                                     var id = document.getElementById("sample-table-1").rows[1].cells[0].innerHTML;
+
+                                    //---Highlight first row---lzr
+                                    $("#sample-table-1 tr[data-index='0'] td").attr("id","table-row-highlight");
+
                                     console.log(id + "------");
-                                    $('#sample-table-0').bootstrapTable({
-                                        url: '/getOneCustomer?id=' + id,
-                                        columns: [{
-                                            field: 'customerId',
-                                            title: '客户ID'
-                                        }, {
-                                            field: 'customerPhone',
-                                            title: '电话号码'
-                                        }, {
-                                            field: 'gender',
-                                            title: '性别'
-                                        }, {
-                                            field: 'age',
-                                            title: '年龄'
-                                        }, {
-                                            field: 'model',
-                                            title: '车型'
-                                        }, {
-                                            field: 'value',
-                                            title: '客户价值'
-                                        }, {
-                                            field: 'status',
-                                            title: '状态'
-                                        }]
-                                    });
-                                    $('#sample-table-0').bootstrapTable('toggleView');
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(id);
+                                },
+                                onPageChange: function(number){     //---Fires when change page number---lzr
+                                    //---Hightlight the first row of table---lzr
+                                    $("#sample-table-1").find("tr").eq(1).children("td").attr("id","table-row-highlight");
+
+                                    //---Refresh #sample-table-0 contents
+                                    $('#table0').empty();
+                                    var box = document.getElementById("table0");
+                                    var table0 = document.createElement("table");
+                                    table0.setAttribute("id", "sample-table-0");
+                                    box.appendChild(table0);
+
+                                    //用获取table(通过其id ) 获取指定的行，列
+                                    var id = document.getElementById("sample-table-1").rows[1].cells[0].innerHTML;
+
+                                    //---Call the generateCustomerInfoTable(id) function---lzr
+                                    generateCustomerInfoTable(id);
                                 }
                             });
+
+                            //---Generate customer info table---lzr
+                            function generateCustomerInfoTable(id) {
+                                $('#sample-table-0').bootstrapTable({
+                                    url: '/getOneCustomer?id=' + id,
+                                    columns: [{
+                                        field: 'customerId',
+                                        title: '客户ID'
+                                    }, {
+                                        field: 'customerPhone',
+                                        title: '电话号码'
+                                    }, {
+                                        field: 'gender',
+                                        title: '性别'
+                                    }, {
+                                        field: 'age',
+                                        title: '年龄'
+                                    }, {
+                                        field: 'model',
+                                        title: '车型'
+                                    }, {
+                                        field: 'value',
+                                        title: '客户价值'
+                                    }, {
+                                        field: 'status',
+                                        title: '状态'
+                                    }]
+                                });
+                                $('#sample-table-0').bootstrapTable('toggleView');
+                            }
+
+                            //---Generate feedback info---lzr
+                            function generateFeedbackInfoTable(id, hasNext){
+                                //---Ajax get feedback info---lzr
+                                $.ajax({
+                                    url: "/getFeedbackByCustomerId?id=" + id ,    //---Change this url---lzr
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    success: function (feedbackJason) {
+                                        //清空表单
+                                        $('#form1')[0].reset();
+
+                                        var json = eval(feedbackJason);//---Object List---lzr
+                                        //---Set form values---lzr
+                                        if(json.status == 1){    //---Customer agrees to purchase insurance---lzr
+                                            //---Check the radio button---lzr
+                                            $(".radio input[value='one']").attr("checked","checked");
+                                            //---Fill in the remark box---lzr
+                                            $("#remark").text(json.remark);
+                                        }
+                                        else if(json.status == 2){
+                                            //---Check the radio button---lzr
+                                            $(".radio input[value='two']").attr("checked","checked");
+                                            //---Check the failure reason---lzr
+                                            $("#failReason").find("option[name= "+ json.fail_reason_type + "]").attr("selected", true);
+                                            //---Check last_purchasedate---lzr
+                                            $("#lastdate").val(json.lastPurchasedate);
+                                            //---Fill in the remark box---lzr
+                                            $("#remark").text(json.remark);
+                                        }else if(json.status == 3){
+                                            //---Check the radio button---lzr
+                                            $(".radio input[value='three']").attr("checked","checked");
+                                            //---Check the failure reason---lzr
+                                            $("#failReason").find("option[name= "+ json.fail_reason_type + "]").attr("selected", true);
+                                            //---Check last_purchasedate---lzr
+                                            $("#lastdate").val(json.last_purchasedate);
+                                            //---Fill in the remark box---lzr
+                                            $("#remark").text(json.remark);
+                                        }
+                                        //---Check whether the last line of data---lzr
+                                        var submitBtn = $("#submitBtn");
+                                        if(!hasNext){
+                                            //---Disable the button
+                                            $("#submitBtn").attr("disabled","disabled");
+                                            //---hover
+                                            $("#submitBtn").hover(function(){
+                                                $(this).popover({
+                                                    title: "提示",
+                                                    content: "当前已是最后一个用户",
+                                                    placement: 'top'
+                                                })
+                                            })
+
+                                        }else{
+                                            $("#submitBtn").removeAttr("disable");
+                                            $("#submitBtn").unbind("hover");
+                                        }
+
+                                    }
+                                });
+                            }
 
 
                             $(document).ready(function () {
@@ -628,118 +735,5 @@
 
 <script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
-
-<!-- inline scripts related to this page -->
-
-<script type="text/javascript">
-    jQuery(function ($) {
-        $(".chosen-select").chosen();
-        $('#chosen-multiple-style').on('click', function (e) {
-            var target = $(e.target).find('input[type=radio]');
-            var which = parseInt(target.val());
-            if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
-            else $('#form-field-select-4').removeClass('tag-input-style');
-        });
-
-
-        $('[data-rel=tooltip]').tooltip({container: 'body'});
-        $('[data-rel=popover]').popover({container: 'body'});
-
-        $('textarea[class*=autosize]').autosize({append: "\n"});
-        $('textarea.limited').inputlimiter({
-            remText: '%n character%s remaining...',
-            limitText: 'max allowed : %n.'
-        });
-
-        $.mask.definitions['~'] = '[+-]';
-        $('.input-mask-date').mask('99/99/9999');
-        $('.input-mask-phone').mask('(999) 999-9999');
-        $('.input-mask-eyescript').mask('~9.99 ~9.99 999');
-        $(".input-mask-product").mask("a*-999-a999", {
-            placeholder: " ", completed: function () {
-                alert("You typed the following: " + this.val());
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-            $(this).prev().focus();
-        });
-        $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
-            $(this).next().focus();
-        });
-
-        $('#colorpicker1').colorpicker();
-        $('#simple-colorpicker-1').ace_colorpicker();
-
-
-        $(".knob").knob();
-
-
-        //we could just set the data-provide="tag" of the element inside HTML, but IE8 fails!
-        var tag_input = $('#form-field-tags');
-        if (!( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))) {
-            tag_input.tag(
-                {
-                    placeholder: tag_input.attr('placeholder'),
-                    //enable typeahead by specifying the source array
-                    source: ace.variable_US_STATES,//defined in ace.js >> ace.enable_search_ahead
-                }
-            );
-        }
-        else {
-            //display a textarea for old IE, because it doesn't support this plugin or another one I tried!
-            tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
-            //$('#form-field-tags').autosize({append: "\n"});
-        }
-
-
-        /////////
-        $('#modal-form input[type=file]').ace_file_input({
-            style: 'well',
-            btn_choose: 'Drop files here or click to choose',
-            btn_change: null,
-            no_icon: 'icon-cloud-upload',
-            droppable: true,
-            thumbnail: 'large'
-        })
-
-        //chosen plugin inside a modal will have a zero width because the select element is originally hidden
-        //and its width cannot be determined.
-        //so we set the width after modal is show
-        $('#modal-form').on('shown.bs.modal', function () {
-            $(this).find('.chosen-container').each(function () {
-                $(this).find('a:first-child').css('width', '210px');
-                $(this).find('.chosen-drop').css('width', '210px');
-                $(this).find('.chosen-search input').css('width', '200px');
-            });
-        })
-        /**
-         //or you can activate the chosen plugin after modal is shown
-         //this way select element becomes visible with dimensions and chosen works as expected
-         $('#modal-form').on('shown', function () {
-					$(this).find('.modal-chosen').chosen();
-				})
-         */
-
-    });
-</script>
-<!--<div style="display:none">-->
-    <!--<script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script>-->
-<!--</div>-->
 </body>
 </html>

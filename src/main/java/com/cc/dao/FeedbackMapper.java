@@ -4,6 +4,7 @@ import com.cc.pojo.Feedback;
 import com.cc.pojo.FeedbackExample;
 import java.util.List;
 
+import com.cc.pojo.FeedbackWithStatus;
 import org.apache.ibatis.annotations.Param;
 
 public interface FeedbackMapper {
@@ -28,5 +29,6 @@ public interface FeedbackMapper {
     int updateByPrimaryKeySelective(Feedback record);
 
     int updateByPrimaryKey(Feedback record);
-    Feedback getFeedbackByCustomerId(String customer_id);
+    void updateFeedbackList(Feedback feedback);
+    FeedbackWithStatus getFeedbackByCustomerId(String customer_id);
 }

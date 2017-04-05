@@ -28,6 +28,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     @Override
+    public List<CustomerInfo> getAllCustomerList() {
+        return customerInfoMapper.getAllCustomerList();
+    }
+
+    @Override
     public List<CustomerInfo> getCustomer20() {
         return customerInfoMapper.getCustomer20();
     }
@@ -65,5 +70,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public void insertCustomerInfo(CustomerInfo customerInfo) {
 
+    }
+
+    @Override
+    public void updateCustomerStatus(Integer status, String cusomer_id) {
+        customerInfoMapper.updateCustomerStatus(status,cusomer_id);
     }
 }

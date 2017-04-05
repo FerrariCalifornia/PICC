@@ -153,4 +153,9 @@
   <delete id="deleteTable" >
         DELETE FROM customer_status
   </delete>
+  <update id="updateCustomerStatus">
+    UPDATE customer_status
+    SET status = #{0}
+    WHERE customer_id = #{1}
+  </update>
 </mapper>

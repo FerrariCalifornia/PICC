@@ -13,10 +13,12 @@ import java.util.List;
  */
 public interface CustomerInfoService {
     List<CustomerInfo> getAllCustomerInfo(Page page);
+    List<CustomerInfo> getAllCustomerList();
     List<CustomerInfo> getCustomer20();
     List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);
     List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo);
     CustomerInfo getOneCustomer(Integer id);
     PageInfo<CustomerInfo> queryByPage(Integer pageNo, Integer pageSize);
     void insertCustomerInfo(CustomerInfo customerInfo);
+    void updateCustomerStatus(Integer status,String cusomer_id);
 }

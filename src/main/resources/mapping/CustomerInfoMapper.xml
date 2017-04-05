@@ -247,11 +247,14 @@
     SELECT * FROM customer_info WHERE status=0 limit
     #{pageNum},#{pageSize}
   </select>
+    <select id="getAllCustomerList" resultMap="BaseResultMap" >
+        SELECT * FROM customer_info
+    </select>
     <select id="getOneCustomer" resultMap="BaseResultMap" parameterType="int">
     SELECT * FROM customer_info WHERE customer_id = #{id}
   </select>
     <select id="getCustomer20" resultMap="BaseResultMap" parameterType="int">
-  SELECT * FROM customer_info WHERE status=0 limit 0,20
+  SELECT * FROM customer_info WHERE  limit 0,50
 </select>
     <select id="getCustomerListFromStatusTable" resultMap="BaseResultMap" parameterType="com.cc.pojo.UseridAndPageInfo">
     SELECT customer_info.customer_id, customer_phone, gender, age, model, value, customer_info.status from customer_info join customer_status WHERE
@@ -266,5 +269,11 @@
         customer_info.customer_id=customer_status.customer_id
         AND customer_info.status=0 AND customer_status.user_id=#{user_id}
     </select>
+    <update id="updateCustomerStatus" >
+        UPDATE customer_info
+        SET status = #{0}
+        WHERE customer_id = #{1}
+
+    </update>
 
 </mapper>

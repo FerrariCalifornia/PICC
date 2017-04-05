@@ -1,6 +1,7 @@
 package com.cc.service;
 
 import com.cc.pojo.Feedback;
+import com.cc.pojo.FeedbackWithStatus;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public interface FeedbackService {
     List<Feedback> getFeedback();
+    void updateFeedbackList(Feedback feedback);
     void insertFeedback(Feedback feedback);
-    Feedback getFeedbackByCustomerId(String customer_id);
+    FeedbackWithStatus getFeedbackByCustomerId(String customer_id);
 }

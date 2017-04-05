@@ -1,10 +1,14 @@
 package com.cc.controller;
 
 import com.cc.others.IdWorker;
-import com.cc.pojo.CustomerInfo;
+import com.cc.pojo.*;
+import com.cc.service.CustomerInfoService;
+import com.cc.service.CustomerStatusService;
 import com.cc.service.FeedbackService;
-import com.cc.pojo.Feedback;
+import com.cc.service.LoginService;
 import com.google.gson.Gson;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +33,14 @@ public class FeedbackController {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    @Autowired
+    @Resource
     private FeedbackService feedbackService;
+    @Resource
+    private LoginService loginService;
+    @Resource
+    private CustomerInfoService customerInfoService;
+    @Resource
+    private CustomerStatusService customerStatusService;
 
     /*
      get feedback list
@@ -42,12 +53,22 @@ public class FeedbackController {
         String json = gson.toJson(feedbackService.getFeedback());
         return json;
     }
+
+    /**
+     * 提交表单
+     * @param lastPurchasedate
+     * @param customerId
+     * @param failReasonType
+     * @param remark
+     * @return
+     */
     @RequestMapping(value = "/postFeedback",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postFeedback(
             @RequestParam("lastPurchasedate") String lastPurchasedate,
             @RequestParam("customerId") String customerId,
             @RequestParam("failReasonType") String failReasonType,
+            @RequestParam("status") String status,
             @RequestParam("remark") String remark
     ){
         Feedback feedback = new Feedback();
@@ -63,13 +84,27 @@ public class FeedbackController {
         IdWorker feedbackid = new IdWorker();
         feedback.setFeedbackId(Long.toString(feedbackid.nextId()));
         feedback.setSalesDate(new Date());
-        feedback.setUserId("1");
+        Subject currentUser = SecurityUtils.getSubject();
+        String username = currentUser.getPrincipal().toString();
+        String user_id = loginService.findUserByUsername(username).getUserId();
+        feedback.setUserId(user_id);
         feedback.setCustomerId(customerId);
         feedback.setFailReasonType(failReasonType);
         feedback. setRemark(remark);
         feedbackService.insertFeedback(feedback);
-        String json = gson.toJson(feedback);
-        System.out.println(lastPurchasedate);
+
+        // update table customer_info customer_status
+        if(status.equals("one")){
+            customerInfoService.updateCustomerStatus(1,customerId);
+            customerStatusService.updateCustomerStatus(1,customerId);
+        }else if (status.equals("two")){
+            customerInfoService.updateCustomerStatus(2,customerId);
+            customerStatusService.updateCustomerStatus(2,customerId);
+        }else if (status.equals("three")){
+            customerInfoService.updateCustomerStatus(3,customerId);
+            customerStatusService.updateCustomerStatus(3,customerId);
+        }
+
         map.put("message","success");
         String message = gson.toJson(map);
         return message;
@@ -77,12 +112,67 @@ public class FeedbackController {
 
 
     @RequestMapping(value = "/getFeedbackByCustomerId",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public void getOneCustomer(String customer_id,HttpServletResponse response) throws IOException {
+    public void getOneCustomer(String id,HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         Gson gson = new Gson();
         PrintWriter pw = response.getWriter();
-        String json = gson.toJson(feedbackService.getFeedbackByCustomerId(customer_id));
+        FeedbackWithStatus a = feedbackService.getFeedbackByCustomerId(id);
+        Date lastdate= a.getLastPurchasedate();
+        String date2 = dateFormat.format(lastdate);
+        FeedbackWithStatus2 feedbackWithStatus2 =new FeedbackWithStatus2(a.getUserId(),a.getCustomerId(),a.getFailReasonType(),
+                date2,a.getRemark(),a.getStatus());
+
+        String json = gson.toJson(feedbackWithStatus2);
+        System.out.println(json);
         pw.print(json);
         pw.close();
+    }
+
+
+
+    @RequestMapping(value = "/updateFeedback",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String updateFeedback(
+            @RequestParam("lastPurchasedate") String lastPurchasedate,
+            @RequestParam("customerId") String customerId,
+            @RequestParam("failReasonType") String failReasonType,
+            @RequestParam("status") String status,
+            @RequestParam("remark") String remark
+    ){
+        Feedback feedback = new Feedback();
+        Gson gson = new Gson();
+        Map<String,String> map = new HashMap<String, String>();
+        Date lastdate;
+        try {
+            lastdate = dateFormat.parse(lastPurchasedate);
+            feedback.setLastPurchasedate(lastdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        feedback.setSalesDate(new Date());
+        Subject currentUser = SecurityUtils.getSubject();
+        String username = currentUser.getPrincipal().toString();
+        String user_id = loginService.findUserByUsername(username).getUserId();
+        feedback.setUserId(user_id);
+        feedback.setCustomerId(customerId);
+        feedback.setFailReasonType(failReasonType);
+        feedback. setRemark(remark);
+        feedbackService.updateFeedbackList(feedback);
+
+        // update table customer_info customer_status
+        if(status.equals("one")){
+            customerInfoService.updateCustomerStatus(1,customerId);
+            customerStatusService.updateCustomerStatus(1,customerId);
+        }else if (status.equals("two")){
+            customerInfoService.updateCustomerStatus(2,customerId);
+            customerStatusService.updateCustomerStatus(2,customerId);
+        }else if (status.equals("three")){
+            customerInfoService.updateCustomerStatus(3,customerId);
+            customerStatusService.updateCustomerStatus(3,customerId);
+        }
+
+        map.put("message","success");
+        String message = gson.toJson(map);
+        return message;
     }
 }
