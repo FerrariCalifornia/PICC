@@ -427,7 +427,8 @@
                                         if (resp.message == 'success') {
 //                                            window.location.href = 'dashboard-1.html';
                                             //清空表单
-                                            $('#form1')[0].reset();
+                                            //clearForm1();
+
                                             var tabledata = $('#sample-table-1').bootstrapTable('getData');
 //                                            console.log(tabledata);
                                             var tableindex;
@@ -449,37 +450,46 @@
                                                     }
                                              }
 
-                                            if(tableindex<tabledata.length){
-//                                                console.log(tabledata.length);
-//                                                console.log(tableindex);
-                                                $('#sample-table-0').bootstrapTable({
-                                                    url: '/getOneCustomer?id=' + nextcustomerid,
-                                                    columns: [{
-                                                        field: 'customerId',
-                                                        title: '客户ID'
-                                                    }, {
-                                                        field: 'customerPhone',
-                                                        title: '电话号码'
-                                                    }, {
-                                                        field: 'gender',
-                                                        title: '性别'
-                                                    }, {
-                                                        field: 'age',
-                                                        title: '年龄'
-                                                    }, {
-                                                        field: 'model',
-                                                        title: '车型'
-                                                    }, {
-                                                        field: 'value',
-                                                        title: '客户价值'
-                                                    }, {
-                                                        field: 'status',
-                                                        title: '状态'
-                                                    }]
-                                                });
-                                                $('#sample-table-0').bootstrapTable('toggleView');
+                                            //---Get next customer info, highlight next row
+                                             //---Get current customerId---lzr
+                                             //---Check whether has next row
+                                             var tableData = $('#sample-table-1').bootstrapTable('getData');
+                                             var lastCustomerId = tableData[tableData.length-1].customerId
+                                             var hasNext = nextcustomerid == lastCustomerId ? false : true;
+                                             //tableindex<tabledata.length
+                                             if(hasNext){
+                                                //---Update customer info table---lzr
+                                                $('#table0').empty();
+                                                var box = document.getElementById("table0");
+                                                var table0 = document.createElement("table");
+                                                table0.setAttribute("id", "sample-table-0");
+                                                box.appendChild(table0);
+                                                //---Call the generateCustomerInfoTable(id) function---lzr
+                                                generateCustomerInfoTable(nextcustomerid);
+
+
+                                                generateFeedbackInfoTable(nextcustomerid, true);
+
+                                                //获取当前页最后一行数据的customerId
+                                                //var curPageLastCustomerId = $("#sample-table-1").find("tr").eq($('#sample-table-1').bootstrapTable('getOptions').totalRows).find("td").eq(1).innerHTML;
+                                                //获取当前行数
+                                                var curPageMaxTableIndex = $('#sample-table-1').bootstrapTable('getOptions').totalRows;
+                                                var currentTableIndex = $("#table-row-highlight").parents("tr").attr("data-index");
+                                                //下一个数据跨页
+                                                if(currentTableIndex == curPageMaxTableIndex-1){
+                                                    //先翻页，自动高亮
+                                                    $(".col-xs-12 .page-next a").click();
+                                                }
+                                                //如果不跨页，则高亮下一行
+                                                else{
+                                                    $("#sample-table-1 tr td").removeAttr("id");
+                                                    nextTableIndex = parseInt(currentTableIndex)+1
+                                                    $("#sample-table-1").find('tr[data-index = "'+ nextTableIndex +'"] td').attr("id","table-row-highlight");
+                                                }
+
                                             }else {
-                                                alert("已经是最后一个了")
+                                                generateFeedbackInfoTable(nextcustomerid, false);
+                                                //alert("已经是最后一个了")
                                             }
                                         }
 
@@ -490,39 +500,6 @@
                                     }
                                 });
 
-                                //---Get next customer info, highlight next row
-                                //---Get current customerId---lzr
-                                var currentCustomerId = $('.card-view')[0].lastChild.innerHTML;
-                                //---Check whether has next row
-                                var tableData = $('#sample-table-1').bootstrapTable('getData');
-                                var lastCustomerId = tableData[tableData.length-1].customerId
-                                var hasNext = currentCustomerId+1 == lastCustomerId ? false : true;
-                                generateFeedbackInfoTable(currentCustomerId+1, hasNext);
-                                //---Highlight customer status list---lzr
-                                if(hasNext){
-                                    //获取当前页最后一行数据的customerId
-                                    var curPageLastCustomerId = $("#sample-table-1").lastChild("tr").find("td").eq(0);
-                                    //下一个数据跨页
-                                    if(currentCustomerId == curPageLastCustomerId){
-                                        //先翻页，自动高亮
-                                        $(".col-xs-12 .page-next a").click();
-                                    }
-                                    //如果不跨页，则高亮下一行
-                                    else{
-                                        var currentTableIndex = $("#sample-table-1").parent().attr("data-index");
-                                        $("#sample-table-1 tr td").removeAttr("id");
-                                        $("#sample-table-1").find("tr[data-index ="+ currentTableIndex+1 +"] td").attr("id","table-row-highlight");
-                                    }
-                                }
-
-                                //---Update customer info table---lzr
-                                $('#table0').empty();
-                                var box = document.getElementById("table0");
-                                var table0 = document.createElement("table");
-                                table0.setAttribute("id", "sample-table-0");
-                                box.appendChild(table0);
-                                //---Call the generateCustomerInfoTable(id) function---lzr
-                                generateCustomerInfoTable(currentCustomerId+1);
 
                             }
                         </script>
@@ -562,7 +539,7 @@
                                     //---Call the generateCustomerInfoTable(id) function---lzr
                                     generateCustomerInfoTable(row.customerId);
 
-                                    //---Check whether has next row
+                                    //---显示反馈表的信息
                                     var tableData = $('#sample-table-1').bootstrapTable('getData');
                                     var lastCustomerId = tableData[tableData.length-1].customerId
                                     var hasNext = row.customerId == lastCustomerId ? false : true;
@@ -579,6 +556,12 @@
 
                                     //---Call the generateCustomerInfoTable(id) function---lzr
                                     generateCustomerInfoTable(id);
+
+                                    //---显示反馈表的信息
+                                    var tableData = $('#sample-table-1').bootstrapTable('getData');
+                                    var lastCustomerId = tableData[tableData.length-1].customerId
+                                    var hasNext = id == lastCustomerId ? false : true;
+                                    generateFeedbackInfoTable(id, hasNext);
                                 },
                                 onPageChange: function(number){     //---Fires when change page number---lzr
                                     //---Hightlight the first row of table---lzr
@@ -596,6 +579,12 @@
 
                                     //---Call the generateCustomerInfoTable(id) function---lzr
                                     generateCustomerInfoTable(id);
+
+                                    //---显示反馈表的信息
+                                    var tableData = $('#sample-table-1').bootstrapTable('getData');
+                                    var lastCustomerId = tableData[tableData.length-1].customerId
+                                    var hasNext = id == lastCustomerId ? false : true;
+                                    generateFeedbackInfoTable(id, hasNext);
                                 }
                             });
 
@@ -629,6 +618,18 @@
                                 $('#sample-table-0').bootstrapTable('toggleView');
                             }
 
+                            function clearForm1(){
+                                $('#form1')[0].reset();
+                                //---clear the radio button---lzr
+                                //$(".radio input").removeAttr("checked");
+                                //---clear the failure reason---lzr
+                                //$("#failReason").find("option").removeAttr("selected");
+                                //---clear last_purchasedate---lzr
+                                $("#lastdate").attr("value", " ");
+                                //---clear in the remark box---lzr
+                                $("#remark").text(" ");
+                            }
+
                             //---Generate feedback info---lzr
                             function generateFeedbackInfoTable(id, hasNext){
                                 //---Ajax get feedback info---lzr
@@ -638,7 +639,7 @@
                                     dataType: 'json',
                                     success: function (feedbackJason) {
                                         //清空表单
-                                        $('#form1')[0].reset();
+                                        clearForm1();
 
                                         var json = eval(feedbackJason);//---Object List---lzr
                                         //---Set form values---lzr
@@ -654,7 +655,7 @@
                                             //---Check the failure reason---lzr
                                             $("#failReason").find("option[name= "+ json.fail_reason_type + "]").attr("selected", true);
                                             //---Check last_purchasedate---lzr
-                                            $("#lastdate").val(json.lastPurchasedate);
+                                            $("#lastdate").attr("value", json.lastPurchasedate);
                                             //---Fill in the remark box---lzr
                                             $("#remark").text(json.remark);
                                         }else if(json.status == 3){
@@ -663,7 +664,7 @@
                                             //---Check the failure reason---lzr
                                             $("#failReason").find("option[name= "+ json.fail_reason_type + "]").attr("selected", true);
                                             //---Check last_purchasedate---lzr
-                                            $("#lastdate").val(json.last_purchasedate);
+                                            $("#lastdate").attr("value", json.lastPurchasedate);
                                             //---Fill in the remark box---lzr
                                             $("#remark").text(json.remark);
                                         }
@@ -715,7 +716,113 @@
 </a>
 </div><!-- /.main-container -->
 
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(".chosen-select").chosen();
+        $('#chosen-multiple-style').on('click', function (e) {
+            var target = $(e.target).find('input[type=radio]');
+            var which = parseInt(target.val());
+            if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
+            else $('#form-field-select-4').removeClass('tag-input-style');
+        });
 
+
+        $('[data-rel=tooltip]').tooltip({container: 'body'});
+        $('[data-rel=popover]').popover({container: 'body'});
+
+        $('textarea[class*=autosize]').autosize({append: "\n"});
+        $('textarea.limited').inputlimiter({
+            remText: '%n character%s remaining...',
+            limitText: 'max allowed : %n.'
+        });
+
+        $.mask.definitions['~'] = '[+-]';
+        $('.input-mask-date').mask('99/99/9999');
+        $('.input-mask-phone').mask('(999) 999-9999');
+        $('.input-mask-eyescript').mask('~9.99 ~9.99 999');
+        $(".input-mask-product").mask("a*-999-a999", {
+            placeholder: " ", completed: function () {
+                alert("You typed the following: " + this.val());
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+        $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+        $('#colorpicker1').colorpicker();
+        $('#simple-colorpicker-1').ace_colorpicker();
+
+
+        $(".knob").knob();
+
+
+        //we could just set the data-provide="tag" of the element inside HTML, but IE8 fails!
+        var tag_input = $('#form-field-tags');
+        if (!( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))) {
+            tag_input.tag(
+                {
+                    placeholder: tag_input.attr('placeholder'),
+                    //enable typeahead by specifying the source array
+                    source: ace.variable_US_STATES,//defined in ace.js >> ace.enable_search_ahead
+                }
+            );
+        }
+        else {
+            //display a textarea for old IE, because it doesn't support this plugin or another one I tried!
+            tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
+            //$('#form-field-tags').autosize({append: "\n"});
+        }
+
+
+        /////////
+        $('#modal-form input[type=file]').ace_file_input({
+            style: 'well',
+            btn_choose: 'Drop files here or click to choose',
+            btn_change: null,
+            no_icon: 'icon-cloud-upload',
+            droppable: true,
+            thumbnail: 'large'
+        })
+
+        //chosen plugin inside a modal will have a zero width because the select element is originally hidden
+        //and its width cannot be determined.
+        //so we set the width after modal is show
+        $('#modal-form').on('shown.bs.modal', function () {
+            $(this).find('.chosen-container').each(function () {
+                $(this).find('a:first-child').css('width', '210px');
+                $(this).find('.chosen-drop').css('width', '210px');
+                $(this).find('.chosen-search input').css('width', '200px');
+            });
+        })
+        /**
+         //or you can activate the chosen plugin after modal is shown
+         //this way select element becomes visible with dimensions and chosen works as expected
+         $('#modal-form').on('shown', function () {
+					$(this).find('.modal-chosen').chosen();
+				})
+         */
+
+    });
+</script>
 <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/chosen.jquery.min.js"></script>

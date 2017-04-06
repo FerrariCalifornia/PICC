@@ -248,7 +248,7 @@
     #{pageNum},#{pageSize}
   </select>
     <select id="getAllCustomerList" resultMap="BaseResultMap" >
-        SELECT * FROM customer_info
+        SELECT * FROM customer_info WHERE status !=0
     </select>
     <select id="getOneCustomer" resultMap="BaseResultMap" parameterType="int">
     SELECT * FROM customer_info WHERE customer_id = #{id}

@@ -75,12 +75,16 @@ public class FeedbackController {
         Gson gson = new Gson();
         Map<String,String> map = new HashMap<String, String>();
         Date lastdate;
-        try {
-             lastdate = dateFormat.parse(lastPurchasedate);
-             feedback.setLastPurchasedate(lastdate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        //判断日期是不是为空
+        if(lastPurchasedate!=null){
+            try {
+                lastdate = dateFormat.parse(lastPurchasedate);
+                feedback.setLastPurchasedate(lastdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
         IdWorker feedbackid = new IdWorker();
         feedback.setFeedbackId(Long.toString(feedbackid.nextId()));
         feedback.setSalesDate(new Date());
@@ -118,7 +122,10 @@ public class FeedbackController {
         PrintWriter pw = response.getWriter();
         FeedbackWithStatus a = feedbackService.getFeedbackByCustomerId(id);
         Date lastdate= a.getLastPurchasedate();
-        String date2 = dateFormat.format(lastdate);
+        String date2="";
+        if (lastdate!=null){
+             date2= dateFormat.format(lastdate);
+        }
         FeedbackWithStatus2 feedbackWithStatus2 =new FeedbackWithStatus2(a.getUserId(),a.getCustomerId(),a.getFailReasonType(),
                 date2,a.getRemark(),a.getStatus());
 
