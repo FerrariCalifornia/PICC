@@ -320,14 +320,14 @@
                                 <div class="widget-body">
                                     <div class="widget-main">
                                         <div class="control-group">
-                                            <label class="control-label bolder blue">是否成功</label>
+                                            <label class="control-label bolder blue">销售结果</label>
 
                                             <div class="radio">
                                                 <div class="space-1">
                                                     <label>
                                                         <input name="status" type="radio"
                                                                class="ace" value="one"/>
-                                                        <span class="lbl">是</span>
+                                                        <span class="lbl">同意购买</span>
                                                     </label>
                                                 </div>
                                                 <div class="space-1">
@@ -341,7 +341,7 @@
                                                     <label>
                                                         <input name="status" type="radio"
                                                                class="ace" value="three"/>
-                                                        <span class="lbl">否</span>
+                                                        <span class="lbl">拒绝购买</span>
                                                     </label>
                                                 </div>
 
@@ -489,8 +489,33 @@
                                                 }
 
                                             }else {
+                                                //---Update customer info table---lzr
+                                                $('#table0').empty();
+                                                var box = document.getElementById("table0");
+                                                var table0 = document.createElement("table");
+                                                table0.setAttribute("id", "sample-table-0");
+                                                box.appendChild(table0);
+                                                //---Call the generateCustomerInfoTable(id) function---lzr
+                                                generateCustomerInfoTable(nextcustomerid);
+
                                                 generateFeedbackInfoTable(nextcustomerid, false);
-                                                //alert("已经是最后一个了")
+
+                                                //获取当前页最后一行数据的customerId
+                                                //var curPageLastCustomerId = $("#sample-table-1").find("tr").eq($('#sample-table-1').bootstrapTable('getOptions').totalRows).find("td").eq(1).innerHTML;
+                                                //获取当前行数
+                                                var curPageMaxTableIndex = $('#sample-table-1').bootstrapTable('getOptions').totalRows;
+                                                var currentTableIndex = $("#table-row-highlight").parents("tr").attr("data-index");
+                                                //下一个数据跨页
+                                                if(currentTableIndex == curPageMaxTableIndex-1){
+                                                    //先翻页，自动高亮
+                                                    $(".col-xs-12 .page-next a").click();
+                                                }
+                                                //如果不跨页，则高亮下一行
+                                                else{
+                                                    $("#sample-table-1 tr td").removeAttr("id");
+                                                    nextTableIndex = parseInt(currentTableIndex)+1
+                                                    $("#sample-table-1").find('tr[data-index = "'+ nextTableIndex +'"] td').attr("id","table-row-highlight");
+                                                }
                                             }
                                         }
 

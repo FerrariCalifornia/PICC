@@ -254,9 +254,10 @@
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT * FROM feedback
   </select>
+  <!--将join改成left join===lzr-->
   <select id="getFeedbackByCustomerId" parameterType="String" resultMap="BaseResultMap2">
-  SELECT feedback.last_purchasedate,feedback.fail_reason_type,remark,status FROM feedback join customer_info WHERE customer_info.customer_id=feedback.customer_id
-AND feedback.customer_id = #{customer_id};
+  SELECT feedback.last_purchasedate,feedback.fail_reason_type,remark,status FROM customer_info left join feedback ON customer_info.customer_id=feedback.customer_id
+WHERE customer_info.customer_id = #{customer_id};
 
   </select>
   <update id="updateFeedbackList" parameterType="com.cc.pojo.Feedback">
