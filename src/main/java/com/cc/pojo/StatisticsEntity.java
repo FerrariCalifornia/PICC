@@ -1,6 +1,6 @@
 package com.cc.pojo;
 
-import sun.jvm.hotspot.jdi.IntegerTypeImpl;
+//import sun.jvm.hotspot.jdi.IntegerTypeImpl;
 
 /**
  * Created by cc on 2017/4/5.
