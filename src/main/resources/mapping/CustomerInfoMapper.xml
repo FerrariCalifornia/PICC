@@ -253,6 +253,11 @@
     <select id="getOneCustomer" resultMap="BaseResultMap" parameterType="int">
     SELECT * FROM customer_info WHERE customer_id = #{id}
   </select>
+
+
+    <select id="getCustomerListByRandom" resultMap="BaseResultMap" parameterType="int">
+        SELECT * FROM customer_info  WHERE status =0 ORDER BY rand() limit 0,#{0}
+    </select>
     <select id="getCustomer20" resultMap="BaseResultMap" parameterType="int">
   SELECT * FROM customer_info WHERE  limit 0,50
 </select>

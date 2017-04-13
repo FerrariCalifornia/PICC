@@ -25,6 +25,7 @@ public interface CustomerInfoMapper {
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
     List<CustomerInfo> getCustomerList(Page page);
     List<CustomerInfo> getCustomer20();
+    List<CustomerInfo> getCustomerListByRandom(Integer size);
     List<CustomerInfo> getAllCustomerList();
     void updateCustomerStatus(Integer status,String customer_id);
     List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);

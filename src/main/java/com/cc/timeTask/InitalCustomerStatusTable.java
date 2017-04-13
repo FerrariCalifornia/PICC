@@ -21,7 +21,8 @@ public class InitalCustomerStatusTable {
     private CustomerStatusService customerStatusService;
     public void init() throws Exception {
         customerStatusService.deleteTable();
-        userService.assign_task();
+//        userService.assign_task();
+        userService.assign_task_by_random();
         System.out.println("initialize customer status table..........");
     }
 
