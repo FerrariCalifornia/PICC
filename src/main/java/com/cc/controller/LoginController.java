@@ -51,10 +51,16 @@ public class LoginController {
         try {
             subject.login(token);
             if (subject.hasRole("admin")) {
+                //设置session中的用户名---lzr
+                session.setAttribute("username", user.getUsername());
+
                 System.out.println("管理员正在登录");
                 System.out.println("admin long in  success");
                 return "adminsuccess";
             } else if (subject.hasRole("user")) {
+                //设置session中的用户名---lzr
+                session.setAttribute("username", user.getUsername());
+
                 System.out.println("用户登录成功!");
                 return "success";
             } else {
@@ -115,5 +121,13 @@ public class LoginController {
 
         return "login";
     }
+
+    @RequestMapping(value = "/getUsername", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getUsername(HttpSession session){
+        return (String)session.getAttribute("username");
+    }
+
+
 
 }
