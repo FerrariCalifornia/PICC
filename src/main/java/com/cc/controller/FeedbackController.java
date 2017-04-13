@@ -121,11 +121,13 @@ public class FeedbackController {
         Gson gson = new Gson();
         PrintWriter pw = response.getWriter();
         FeedbackWithStatus a = feedbackService.getFeedbackByCustomerId(id);
-        Date lastdate= a.getLastPurchasedate();
+        Date lastdate=null;
         String date2="";
-        if (lastdate!=null){
-             date2= dateFormat.format(lastdate);
+        if (null!=a.getLastPurchasedate()){
+            lastdate= a.getLastPurchasedate();
+            date2= dateFormat.format(lastdate);
         }
+
         FeedbackWithStatus2 feedbackWithStatus2 =new FeedbackWithStatus2(a.getUserId(),a.getCustomerId(),a.getFailReasonType(),
                 date2,a.getRemark(),a.getStatus());
 
