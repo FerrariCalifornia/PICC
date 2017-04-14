@@ -23,10 +23,15 @@ public interface CustomerInfoMapper {
     int insertSelective(CustomerInfo record);
 
     List<CustomerInfo> selectByExample(CustomerInfoExample example);
-    List<CustomerInfo> getCustomerList(Page page);
-    List<CustomerInfo> getCustomer20();
+
+    List<CustomerInfo> getCustomerList(Integer size);
     List<CustomerInfo> getCustomerListByRandom(Integer size);
     List<CustomerInfo> getAllCustomerList();
+    List<CustomerInfo> getCustomerStatusNotZero(String user_id,String type);
+    //找出状态不为零的用户顺序
+    List<CustomerInfo> getCustomerListNeq0(Integer size);
+    //找出状态不为零的用户random
+    List<CustomerInfo> getCustomerListNeq0ByRandom(Integer size);
     void updateCustomerStatus(Integer status,String customer_id);
     List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);
     List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo);

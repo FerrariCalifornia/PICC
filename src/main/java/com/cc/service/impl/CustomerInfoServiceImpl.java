@@ -23,7 +23,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public List<CustomerInfo> getAllCustomerInfo(Page page) {
-        return customerInfoMapper.getCustomerList(page);
+        return null;
 
     }
 
@@ -34,7 +34,12 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public List<CustomerInfo> getCustomer20() {
-        return customerInfoMapper.getCustomer20();
+        return null;
+    }
+
+    @Override
+    public List<CustomerInfo> getCustomerStatusNotZero(String user_id, String type) {
+        return customerInfoMapper.getCustomerStatusNotZero(user_id,type);
     }
 
     @Override

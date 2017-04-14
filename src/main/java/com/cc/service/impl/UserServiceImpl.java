@@ -1,11 +1,10 @@
 package com.cc.service.impl;
 
 import com.cc.dao.CustomerInfoMapper;
+import com.cc.dao.TaskMapper;
 import com.cc.dao.UserInfoMapper;
-import com.cc.pojo.CustomerInfo;
-import com.cc.pojo.CustomerStatus;
-import com.cc.pojo.Page;
-import com.cc.pojo.UserInfo;
+import com.cc.pojo.*;
+import com.cc.service.CustomerStatusNotZeroService;
 import com.cc.service.CustomerStatusService;
 import com.cc.service.UserService;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,12 @@ public class UserServiceImpl implements UserService {
     private CustomerInfoMapper customerInfoMapper;
     @Resource
     private CustomerStatusService customerStatusService;
+    @Resource
+    private CustomerStatusNotZeroService customerStatusNotZeroService;
+    @Resource
+    private TaskMapper taskMapper;
+
+
 
     @Override
     public List<UserInfo> getUserList() {
@@ -47,28 +52,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void assign_task() {
+
+        Task task =taskMapper.findTask();
+        int task_num =task.getTaskNum();
         List<UserInfo> normalUserList= userInfoMapper.findNormalUser();
-        for (int i = 0; i <normalUserList.size() ; i++) {
-            String user_id =normalUserList.get(i).getUserId();
-            Page page= new Page();
-            //每人分配三十个客户，
-            page.setPageNum(i*30);
-            page.setPageSize(30);
-            List<CustomerInfo> customerInfoList = customerInfoMapper.getCustomerList(page);
-            for (CustomerInfo c:customerInfoList
-                 ) {
-                CustomerStatus customerStatus = new CustomerStatus();
-                customerStatus.setStatus(c.getStatus());
-                customerStatus.setUserId(user_id);
-                customerStatus.setCustomerId(c.getCustomerId());
-                customerStatusService.insert(customerStatus);
+        Integer task_amount=task_num*normalUserList.size();
+        List<CustomerInfo> customerInfoList = customerInfoMapper.getCustomerList(task_amount);
+        int count = 0;
+        int k = 1;
+        for (CustomerInfo c:customerInfoList) {
+            if (normalUserList.size()!=0){
+                if (normalUserList.size()!=0){
+                    if (count<k*task_num){
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatus customerStatus = new CustomerStatus();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusService.insert(customerStatus);
+                    }else {
+                        k++;
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatus customerStatus = new CustomerStatus();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusService.insert(customerStatus);
+                    }
+                }
             }
+            count++;
         }
+
     }
 
     @Override
     public void assign_task_by_random() {
-        int task_num =30;
+        Task task =taskMapper.findTask();
+        int task_num =task.getTaskNum();
         List<UserInfo> normalUserList= userInfoMapper.findNormalUser();
         Integer task_amount=task_num*normalUserList.size();
         List<CustomerInfo> customerInfoList = customerInfoMapper.getCustomerListByRandom(task_amount);
@@ -78,8 +99,6 @@ public class UserServiceImpl implements UserService {
             if (normalUserList.size()!=0){
                     if (normalUserList.size()!=0){
                         if (count<k*task_num){
-                            System.err.println("k="+k*task_num);
-                            System.err.println("count="+count);
                             String user_id =normalUserList.get(k-1).getUserId();
                             CustomerStatus customerStatus = new CustomerStatus();
                             customerStatus.setStatus(c.getStatus());
@@ -87,8 +106,13 @@ public class UserServiceImpl implements UserService {
                             customerStatus.setCustomerId(c.getCustomerId());
                             customerStatusService.insert(customerStatus);
                         }else {
-                            System.err.println("k===================================================");
                             k++;
+                            String user_id =normalUserList.get(k-1).getUserId();
+                            CustomerStatus customerStatus = new CustomerStatus();
+                            customerStatus.setStatus(c.getStatus());
+                            customerStatus.setUserId(user_id);
+                            customerStatus.setCustomerId(c.getCustomerId());
+                            customerStatusService.insert(customerStatus);
                         }
                     }
             }
@@ -96,13 +120,87 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 顺序分配待沟通客户
+     */
     @Override
     public void assign_follow_up_task() {
+        Task task =taskMapper.findTask();
+        int task_num =task.getFollowTaskNum();
+        List<UserInfo> normalUserList= userInfoMapper.findNormalUser();
+        Integer task_amount=task_num*normalUserList.size();
+        List<CustomerInfo> customerInfoList = customerInfoMapper.getCustomerListNeq0(task_amount);
+        int count = 0;
+        int k = 1;
+        for (CustomerInfo c:customerInfoList) {
+            if (normalUserList.size()!=0){
+                if (normalUserList.size()!=0){
+                    if (count<k*task_num){
+                        System.err.println("k="+k*task_num);
+                        System.err.println("count="+count);
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatusNotZero customerStatus = new CustomerStatusNotZero();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusNotZeroService.insert(customerStatus);
+                    }else {
+                        System.err.println("k==========================================");
+                        k++;
+                        System.err.println("k="+k*task_num);
+                        System.err.println("count="+count);
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatusNotZero customerStatus = new CustomerStatusNotZero();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusNotZeroService.insert(customerStatus);
+                    }
+                }
+            }
+            count++;
+        }
 
     }
-
+    /**
+     * 随机分配待沟通客户
+     */
     @Override
     public void assign_follow_up_task_by_random() {
-
+        Task task =taskMapper.findTask();
+        int task_num =task.getFollowTaskNum();
+        List<UserInfo> normalUserList= userInfoMapper.findNormalUser();
+        Integer task_amount=task_num*normalUserList.size();
+        List<CustomerInfo> customerInfoList = customerInfoMapper.getCustomerListNeq0ByRandom(task_amount);
+        int count = 0;
+        int k = 1;
+        for (CustomerInfo c:customerInfoList) {
+            if (normalUserList.size()!=0){
+                if (normalUserList.size()!=0){
+                    if (count<k*task_num){
+                        System.err.println("k="+k);
+                        System.err.println("count="+count);
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatusNotZero customerStatus = new CustomerStatusNotZero();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusNotZeroService.insert(customerStatus);
+                    }else {
+                        System.err.println("==========================================");
+                        k++;
+                        System.err.println("k="+k);
+                        System.err.println("count="+count);
+                        String user_id =normalUserList.get(k-1).getUserId();
+                        CustomerStatusNotZero customerStatus = new CustomerStatusNotZero();
+                        customerStatus.setStatus(c.getStatus());
+                        customerStatus.setUserId(user_id);
+                        customerStatus.setCustomerId(c.getCustomerId());
+                        customerStatusNotZeroService.insert(customerStatus);
+                    }
+                }
+            }
+            count++;
+        }
     }
 }
