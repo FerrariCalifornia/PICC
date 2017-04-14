@@ -455,16 +455,16 @@
 
     BootstrapTable.LOCALES['en-US'] = BootstrapTable.LOCALES.en = {
         formatLoadingMessage: function () {
-            return 'Loading, please wait...';
+            return '正在加载, 请稍后...';
         },
         formatRecordsPerPage: function (pageNumber) {
-            return sprintf('%s rows per page', pageNumber);
+            return sprintf('每页 %s 行', pageNumber);
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
-            return sprintf('Showing %s to %s of %s rows', pageFrom, pageTo, totalRows);
+            return sprintf('第 %s 到 %s 行，共 %s 行', pageFrom, pageTo, totalRows);
         },
         formatDetailPagination: function (totalRows) {
-            return sprintf('Showing %s rows', totalRows);
+            return sprintf('共 %s 行', totalRows);
         },
         formatSearch: function () {
             return 'Search';
