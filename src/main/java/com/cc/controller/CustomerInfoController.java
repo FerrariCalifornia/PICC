@@ -124,4 +124,31 @@ public class CustomerInfoController {
 
         pw.close();
     }
+
+
+    /**
+     * 从customer status not zero 表关联反馈表和用户表中取出待跟进客户名单
+     * @return
+     */
+    @RequestMapping(value = "/getCustomerNotZeroByUserName",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getCustomerNotZeroByUserName(@RequestParam(defaultValue = "0")int type){
+        String s = null;
+        if (type==1){
+            s="未打通";
+        }else if (type==2){
+            s="无人接听";
+        }else if (type==3){
+            s="保险未到期";
+        }
+
+        Gson gson = new Gson();
+        Subject currentUser = SecurityUtils.getSubject();
+        String username = currentUser.getPrincipal().toString();
+        String user_id = loginService.findUserByUsername(username).getUserId();
+        List<CustomerInfo> customerInfoList = customerInfoService.getCustomerStatusNotZero(user_id,s);
+        json=gson.toJson(customerInfoList);
+        return json;
+    }
+
 }

@@ -143,7 +143,7 @@
                         <li class="divider"></li>
 
                         <li>
-                            <a href="#">
+                            <a href="/logout">
                                 <i class="icon-off"></i>
                                 Logout
                             </a>
@@ -638,6 +638,113 @@
 
 <script src="assets/js/ace-elements.min.js"></script>
 <script src="assets/js/ace.min.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(".chosen-select").chosen();
+        $('#chosen-multiple-style').on('click', function (e) {
+            var target = $(e.target).find('input[type=radio]');
+            var which = parseInt(target.val());
+            if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
+            else $('#form-field-select-4').removeClass('tag-input-style');
+        });
+
+
+        $('[data-rel=tooltip]').tooltip({container: 'body'});
+        $('[data-rel=popover]').popover({container: 'body'});
+
+        $('textarea[class*=autosize]').autosize({append: "\n"});
+        $('textarea.limited').inputlimiter({
+            remText: '%n character%s remaining...',
+            limitText: 'max allowed : %n.'
+        });
+
+        $.mask.definitions['~'] = '[+-]';
+        $('.input-mask-date').mask('99/99/9999');
+        $('.input-mask-phone').mask('(999) 999-9999');
+        $('.input-mask-eyescript').mask('~9.99 ~9.99 999');
+        $(".input-mask-product").mask("a*-999-a999", {
+            placeholder: " ", completed: function () {
+                alert("You typed the following: " + this.val());
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+        $('input[name=date-range-picker]').daterangepicker().prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+        $('#colorpicker1').colorpicker();
+        $('#simple-colorpicker-1').ace_colorpicker();
+
+
+        $(".knob").knob();
+
+
+        //we could just set the data-provide="tag" of the element inside HTML, but IE8 fails!
+        var tag_input = $('#form-field-tags');
+        if (!( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))) {
+            tag_input.tag(
+                {
+                    placeholder: tag_input.attr('placeholder'),
+                    //enable typeahead by specifying the source array
+                    source: ace.variable_US_STATES,//defined in ace.js >> ace.enable_search_ahead
+                }
+            );
+        }
+        else {
+            //display a textarea for old IE, because it doesn't support this plugin or another one I tried!
+            tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
+            //$('#form-field-tags').autosize({append: "\n"});
+        }
+
+
+        /////////
+        $('#modal-form input[type=file]').ace_file_input({
+            style: 'well',
+            btn_choose: 'Drop files here or click to choose',
+            btn_change: null,
+            no_icon: 'icon-cloud-upload',
+            droppable: true,
+            thumbnail: 'large'
+        })
+
+        //chosen plugin inside a modal will have a zero width because the select element is originally hidden
+        //and its width cannot be determined.
+        //so we set the width after modal is show
+        $('#modal-form').on('shown.bs.modal', function () {
+            $(this).find('.chosen-container').each(function () {
+                $(this).find('a:first-child').css('width', '210px');
+                $(this).find('.chosen-drop').css('width', '210px');
+                $(this).find('.chosen-search input').css('width', '200px');
+            });
+        })
+        /**
+         //or you can activate the chosen plugin after modal is shown
+         //this way select element becomes visible with dimensions and chosen works as expected
+         $('#modal-form').on('shown', function () {
+					$(this).find('.modal-chosen').chosen();
+				})
+         */
+
+    });
+</script>
 
 
 </body>

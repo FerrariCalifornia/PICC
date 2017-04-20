@@ -15,6 +15,7 @@ public interface CustomerInfoService {
     List<CustomerInfo> getAllCustomerInfo(Page page);
     List<CustomerInfo> getAllCustomerList();
     List<CustomerInfo> getCustomer20();
+    List<CustomerInfo> getCustomerStatusNotZero(String user_id,String type);
     List<CustomerInfo> getAllCustomerListFromStatusTable(String user_id);
     List<CustomerInfo> getCustomerListFromStatusTable(UseridAndPageInfo useridAndPageInfo);
     CustomerInfo getOneCustomer(Integer id);

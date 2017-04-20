@@ -2,10 +2,7 @@ package com.cc.controller;
 
 import com.cc.others.IdWorker;
 import com.cc.pojo.*;
-import com.cc.service.CustomerInfoService;
-import com.cc.service.CustomerStatusService;
-import com.cc.service.FeedbackService;
-import com.cc.service.LoginService;
+import com.cc.service.*;
 import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -42,6 +39,9 @@ public class FeedbackController {
     @Resource
     private CustomerStatusService customerStatusService;
 
+    @Resource
+    private CustomerStatusNotZeroService customerStatusNotZeroService;
+
     /*
      get feedback list
  */
@@ -75,12 +75,16 @@ public class FeedbackController {
         Gson gson = new Gson();
         Map<String,String> map = new HashMap<String, String>();
         Date lastdate;
-        try {
-             lastdate = dateFormat.parse(lastPurchasedate);
-             feedback.setLastPurchasedate(lastdate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        //判断日期是不是为空
+        if(lastPurchasedate!=null){
+            try {
+                lastdate = dateFormat.parse(lastPurchasedate);
+                feedback.setLastPurchasedate(lastdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
         IdWorker feedbackid = new IdWorker();
         feedback.setFeedbackId(Long.toString(feedbackid.nextId()));
         feedback.setSalesDate(new Date());
@@ -117,8 +121,13 @@ public class FeedbackController {
         Gson gson = new Gson();
         PrintWriter pw = response.getWriter();
         FeedbackWithStatus a = feedbackService.getFeedbackByCustomerId(id);
-        Date lastdate= a.getLastPurchasedate();
-        String date2 = dateFormat.format(lastdate);
+        Date lastdate=null;
+        String date2="";
+        if (null!=a.getLastPurchasedate()){
+            lastdate= a.getLastPurchasedate();
+            date2= dateFormat.format(lastdate);
+        }
+
         FeedbackWithStatus2 feedbackWithStatus2 =new FeedbackWithStatus2(a.getUserId(),a.getCustomerId(),a.getFailReasonType(),
                 date2,a.getRemark(),a.getStatus());
 
@@ -169,6 +178,53 @@ public class FeedbackController {
         }else if (status.equals("three")){
             customerInfoService.updateCustomerStatus(3,customerId);
             customerStatusService.updateCustomerStatus(3,customerId);
+        }
+
+        map.put("message","success");
+        String message = gson.toJson(map);
+        return message;
+    }
+
+
+    @RequestMapping(value = "/updateFeedbackNotZero",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String updateFeedbackNotZero(
+            @RequestParam("lastPurchasedate") String lastPurchasedate,
+            @RequestParam("customerId") String customerId,
+            @RequestParam("failReasonType") String failReasonType,
+            @RequestParam("status") String status,
+            @RequestParam("remark") String remark
+    ){
+        Feedback feedback = new Feedback();
+        Gson gson = new Gson();
+        Map<String,String> map = new HashMap<String, String>();
+        Date lastdate;
+        try {
+            lastdate = dateFormat.parse(lastPurchasedate);
+            feedback.setLastPurchasedate(lastdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        feedback.setSalesDate(new Date());
+        Subject currentUser = SecurityUtils.getSubject();
+        String username = currentUser.getPrincipal().toString();
+        String user_id = loginService.findUserByUsername(username).getUserId();
+        feedback.setUserId(user_id);
+        feedback.setCustomerId(customerId);
+        feedback.setFailReasonType(failReasonType);
+        feedback. setRemark(remark);
+        feedbackService.updateFeedbackList(feedback);
+
+        // update table customer_info customer_status
+        if(status.equals("one")){
+            customerInfoService.updateCustomerStatus(1,customerId);
+            customerStatusNotZeroService.updateCustomerStatus(1,customerId);
+        }else if (status.equals("two")){
+            customerInfoService.updateCustomerStatus(2,customerId);
+            customerStatusNotZeroService.updateCustomerStatus(2,customerId);
+        }else if (status.equals("three")){
+            customerInfoService.updateCustomerStatus(3,customerId);
+            customerStatusNotZeroService.updateCustomerStatus(3,customerId);
         }
 
         map.put("message","success");

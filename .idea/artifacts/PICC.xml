@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="PICC:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/PICC_war_exploded</output-path>
-    <root id="root">
+  <artifact type="war" name="PICC">
+    <output-path>$PROJECT_DIR$/out/artifacts/PICC</output-path>
+    <root id="archive" name="PICC.war">
       <element id="javaee-facet-resources" facet="PICC/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
