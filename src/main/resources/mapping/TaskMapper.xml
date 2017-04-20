@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.dao.TaskMapper" >
+  <resultMap id="BaseResultMap" type="com.cc.pojo.Task" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_num" property="taskNum" jdbcType="INTEGER" />
+    <result column="task_type" property="taskType" jdbcType="INTEGER" />
+    <result column="follow_task_num" property="followTaskNum" jdbcType="INTEGER" />
+    <result column="follow_task_type" property="followTaskType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, task_num, task_type, follow_task_num, follow_task_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cc.pojo.TaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cc.pojo.TaskExample" >
+    delete from task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cc.pojo.Task" >
+    insert into task (id, task_num, task_type, 
+      follow_task_num, follow_task_type)
+    values (#{id,jdbcType=INTEGER}, #{taskNum,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, 
+      #{followTaskNum,jdbcType=INTEGER}, #{followTaskType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cc.pojo.Task" >
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="taskNum != null" >
+        task_num,
+      </if>
+      <if test="taskType != null" >
+        task_type,
+      </if>
+      <if test="followTaskNum != null" >
+        follow_task_num,
+      </if>
+      <if test="followTaskType != null" >
+        follow_task_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskNum != null" >
+        #{taskNum,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null" >
+        #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="followTaskNum != null" >
+        #{followTaskNum,jdbcType=INTEGER},
+      </if>
+      <if test="followTaskType != null" >
+        #{followTaskType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cc.pojo.TaskExample" resultType="java.lang.Integer" >
+    select count(*) from task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update task
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskNum != null" >
+        task_num = #{record.taskNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskType != null" >
+        task_type = #{record.taskType,jdbcType=INTEGER},
+      </if>
+      <if test="record.followTaskNum != null" >
+        follow_task_num = #{record.followTaskNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.followTaskType != null" >
+        follow_task_type = #{record.followTaskType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update task
+    set id = #{record.id,jdbcType=INTEGER},
+      task_num = #{record.taskNum,jdbcType=INTEGER},
+      task_type = #{record.taskType,jdbcType=INTEGER},
+      follow_task_num = #{record.followTaskNum,jdbcType=INTEGER},
+      follow_task_type = #{record.followTaskType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cc.pojo.Task" >
+    update task
+    <set >
+      <if test="taskNum != null" >
+        task_num = #{taskNum,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null" >
+        task_type = #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="followTaskNum != null" >
+        follow_task_num = #{followTaskNum,jdbcType=INTEGER},
+      </if>
+      <if test="followTaskType != null" >
+        follow_task_type = #{followTaskType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cc.pojo.Task" >
+    update task
+    set task_num = #{taskNum,jdbcType=INTEGER},
+      task_type = #{taskType,jdbcType=INTEGER},
+      follow_task_num = #{followTaskNum,jdbcType=INTEGER},
+      follow_task_type = #{followTaskType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findTask" resultMap="BaseResultMap">
+    SELECT * FROM task limit 1
+  </select>
+  <update id="updateTask" parameterType="com.cc.pojo.Task">
+update task
+    set task_num = #{taskNum,jdbcType=INTEGER},
+      task_type = #{taskType,jdbcType=INTEGER},
+      follow_task_num = #{followTaskNum,jdbcType=INTEGER},
+      follow_task_type = #{followTaskType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
